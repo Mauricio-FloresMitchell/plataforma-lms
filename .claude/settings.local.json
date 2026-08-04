@@ -1,0 +1,41 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(grep -oE 'nav-item[^>]*>.{0,40}' \"C:\\\\Users\\\\flore\\\\Documents\\\\IMPERALIANZ\\\\PLATAFORMA\\\\profesores.html\")",
+      "PowerShell(Select-String -Path \"C:\\\\Users\\\\flore\\\\Documents\\\\IMPERALIANZ\\\\PLATAFORMA\\\\profesores.html\" -Pattern \"<title>|nav-item|nav-label\" | Select-Object -First 30 | ForEach-Object { $_.Line.Trim\\(\\) })",
+      "Bash(npm -v)",
+      "Bash(echo \"marker-from-bash-backslash\" > \"C:\\\\Users\\\\flore\\\\Documents\\\\IMPERALIANZ\\\\PLATAFORMA\\\\test-marker.txt\" && echo \"written\")",
+      "Bash(rm \"C:\\\\Users\\\\flore\\\\Documents\\\\IMPERALIANZ\\\\PLATAFORMA\\\\test-marker.txt\" *)",
+      "Bash(npm create *)",
+      "Bash(mv _scaffold_tmp/.gitignore .)",
+      "Bash(mv _scaffold_tmp/.oxlintrc.json .)",
+      "Bash(mv _scaffold_tmp/README.md .)",
+      "Bash(mv _scaffold_tmp/index.html .)",
+      "Bash(mv _scaffold_tmp/package.json .)",
+      "Bash(npm install *)",
+      "Bash(npx shadcn@latest init --help)",
+      "Bash(npx shadcn@latest init --template vite --base radix --yes --css-variables)",
+      "Bash(npx shadcn@latest init --template vite --base radix --preset nova --yes --css-variables)",
+      "Bash(npm uninstall *)",
+      "Bash(npm audit *)",
+      "Bash(npx shadcn@latest add separator tooltip avatar dropdown-menu sheet skeleton badge scroll-area --yes)",
+      "Bash(rm -f src/App.css src/assets/react.svg src/assets/vite.svg src/assets/hero.png public/favicon.svg public/icons.svg)",
+      "Bash(mkdir -p src/app src/routes src/layouts src/features src/hooks src/services src/types src/mocks src/utils src/components/layout)",
+      "Bash(npx tsc *)",
+      "Bash(npm run *)",
+      "Bash(npx shadcn@latest add input label form card alert --yes)",
+      "Bash(npx shadcn@latest add form --yes)",
+      "Bash(npx shadcn@latest add progress --yes)",
+      "Bash(npx shadcn@latest add textarea select --yes)",
+      "Bash(cd /d \"C:\\\\Users\\\\flore\\\\Documents\\\\IMPERALIANZ\\\\PLATAFORMA\")",
+      "Bash(dir src\\\\features /B)",
+      "Bash(echo \"=== GET, no follow, verbose headers ===\")",
+      "Bash(curl.exe -sS -D - -o /tmp/get_body.txt https://script.google.com/macros/s/AKfycbwe_-hmAZXqCFCZiPYTOTBt7sSV-BfExzQywUecN5BqVlTvtyZbLX1UWY2TMAy4TWJs/exec --max-redirs 0 -w '\\\\nHTTP_STATUS:%{http_code}\\\\n')",
+      "Bash(curl.exe -sS -L -D /tmp/diag_headers_follow.txt -o /tmp/diag_body_follow.txt -X POST -H 'Content-Type: text/plain;charset=utf-8' --data '{\"nombreCompleto\":\"Diagnostico Terminal\",\"correo\":\"diag@example.com\",\"telefono\":\"5500001111\",\"programa\":\"Prepa\",\"modalidad\":\"Examen\",\"periodo\":\"\"}' https://script.google.com/macros/s/AKfycbwe_-hmAZXqCFCZiPYTOTBt7sSV-BfExzQywUecN5BqVlTvtyZbLX1UWY2TMAy4TWJs/exec -w '\\\\nHTTP_STATUS_FINAL:%{http_code}\\\\n')",
+      "Bash(curl.exe -sS -L -D /tmp/diag_headers3.txt -o /tmp/diag_body3.txt -H 'Content-Type: text/plain;charset=utf-8' --data '{\"nombreCompleto\":\"Diagnostico Terminal 2\",\"correo\":\"diag2@example.com\",\"telefono\":\"5500002222\",\"programa\":\"Prepa\",\"modalidad\":\"Examen\",\"periodo\":\"\"}' https://script.google.com/macros/s/AKfycbwe_-hmAZXqCFCZiPYTOTBt7sSV-BfExzQywUecN5BqVlTvtyZbLX1UWY2TMAy4TWJs/exec -w '\\\\nHTTP_STATUS_FINAL:%{http_code}\\\\n')",
+      "Bash(echo \"EXIT:$?\")",
+      "Bash(node -e ' *)",
+      "Bash(powershell -Command \"\\(Get-Content docs/TDD-v1.md | Measure-Object -Line\\).Lines\")"
+    ]
+  }
+}
