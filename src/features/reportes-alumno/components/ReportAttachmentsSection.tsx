@@ -41,19 +41,25 @@ export function ReportAttachmentsSection({
   onRemoveLink,
 }: ReportAttachmentsSectionProps) {
   const inputRef = useRef<HTMLInputElement>(null)
-  const [platform, setPlatform] = useState<ReportLinkPlatform>('github')
+  // Google Drive en vez de GitHub: es la plataforma que aplica a cualquier
+  // carrera, no solo a Ingeniería en Sistemas (el enlace sigue siendo opcional).
+  const [platform, setPlatform] = useState<ReportLinkPlatform>('google_drive')
   const [url, setUrl] = useState('')
   const [linkError, setLinkError] = useState<string | null>(null)
+  const [fileError, setFileError] = useState<string | null>(null)
 
   function handleFileSelected(event: React.ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0]
-    if (file) {
-      const fileKind = detectReportFileKind(file.name)
-      if (fileKind) {
-        onAddEvidence({ id: `ev-${Date.now()}`, name: file.name, fileKind })
-      }
-    }
     event.target.value = ''
+    if (!file) return
+
+    const fileKind = detectReportFileKind(file.name)
+    if (!fileKind) {
+      setFileError(`Formato no admitido. Solo se aceptan: ${REPORT_FILE_ACCEPT}`)
+      return
+    }
+    setFileError(null)
+    onAddEvidence({ id: `ev-${Date.now()}`, name: file.name, fileKind })
   }
 
   function handleAddLink() {
@@ -74,6 +80,10 @@ export function ReportAttachmentsSection({
           <Paperclip className="size-4" />
           Adjuntar archivo
         </Button>
+        <p className="text-xs text-muted-foreground">
+          Formatos admitidos: {Object.values(REPORT_FILE_KIND_LABELS).join(', ')}.
+        </p>
+        {fileError ? <p className="text-xs text-destructive">{fileError}</p> : null}
 
         {evidences.length > 0 ? (
           <ul className="flex flex-col gap-1.5">
@@ -106,7 +116,7 @@ export function ReportAttachmentsSection({
       </div>
 
       <div className="space-y-2">
-        <Label>Enlace externo</Label>
+        <Label>Enlace externo (opcional)</Label>
         <div className="flex flex-wrap gap-2">
           <Select value={platform} onValueChange={(value) => setPlatform(value as ReportLinkPlatform)}>
             <SelectTrigger className="h-10 w-40">

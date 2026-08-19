@@ -13,7 +13,7 @@ export function RubricsReferenceTab() {
   return (
     <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
       <Card className="p-4">
-        <p className="text-sm font-semibold">Rúbrica A — Dominio académico (70%)</p>
+        <p className="text-sm font-semibold">Rúbrica A — Deliverable de Consultoría (70%)</p>
         <ul className="mt-2 flex flex-col gap-1.5">
           {RUBRIC_A_CRITERIA.map((criterion) => (
             <li key={criterion.id} className="flex items-center justify-between text-sm">
