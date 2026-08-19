@@ -7,8 +7,8 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { PageHeader } from '@/components/PageHeader'
 import { useAuth } from '@/features/auth/hooks/useAuth'
 import { ROLE_HOME } from '@/routes/navigation'
-import { createForumPost, getForumCategories } from '@/services/forum.service'
-import type { ForumAttachment, ForumAuthor, ForumCategory } from '@/types/forum'
+import { buildForumAuthor, createForumPost, getForumCategories } from '@/services/forum.service'
+import type { ForumAttachment, ForumCategory } from '@/types/forum'
 import { PostForm } from '../components/PostForm'
 import type { PostFormValues } from '../schemas/post-schema'
 
@@ -37,12 +37,7 @@ export function ForumCreatePage() {
   async function handleSubmit(values: PostFormValues, attachments: ForumAttachment[]) {
     if (!user) return
     setError(null)
-    const author: ForumAuthor = {
-      id: user.id,
-      name: user.name,
-      role: user.role,
-      initials: user.avatarInitials,
-    }
+    const author = buildForumAuthor(user)
     try {
       const created = await createForumPost(author, { ...values, attachments })
       navigate(`/foro/${created.id}`)

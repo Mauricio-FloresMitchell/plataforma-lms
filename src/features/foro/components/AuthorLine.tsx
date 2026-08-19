@@ -26,6 +26,7 @@ export function AuthorLine({ author, date, size = 'md' }: AuthorLineProps) {
           {author.name}
         </span>
         <AuthorRoleBadge role={author.role} />
+        {author.career ? <span className="text-xs text-muted-foreground">· {author.career}</span> : null}
         <span className="text-xs text-muted-foreground/80">{formatRelativeToNow(date)}</span>
       </div>
     </div>
