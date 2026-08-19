@@ -27,6 +27,7 @@ export const POINT_CATALOG: PointCatalogEntry[] = [
   { id: 'pregunta_foro', label: 'Pregunta foro', points: 5 },
   { id: 'respuesta_foro', label: 'Respuesta foro', points: 15 },
   { id: 'consulta_foro', label: 'Consulta foro', points: 10 },
+  { id: 'mejor_solucion_breakout', label: 'Mejor solución del breakout room (votación)', points: 15 },
   { id: 'tardanza', label: 'Tardanza', points: -5 },
   { id: 'ausencia', label: 'Ausencia', points: -10 },
 ]

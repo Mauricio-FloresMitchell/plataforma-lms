@@ -208,6 +208,19 @@ export function registerNotificationListener(): Unsubscribe {
       })
     }),
 
+    eventBus.subscribe('VOTE_CAST', (payload) => {
+      notify({
+        userId: DEMO_PROFESOR_ID,
+        title: 'Nuevo voto en el Leaderboard',
+        description: `${payload.voterName} votó por ${payload.candidateName} en ${payload.subjectName}.`,
+        type: 'voto_recibido',
+        priority: 'baja',
+        link: '/profesor/leaderboard',
+        createdBy: payload.voterName,
+        metadata: { voteId: payload.voteId, subjectId: payload.subjectId },
+      })
+    }),
+
     eventBus.subscribe('ACTIVITY_CREATED', (payload) => {
       if (!DEMO_ALUMNO_SUBJECT_IDS.has(payload.subjectId)) return
       notify({

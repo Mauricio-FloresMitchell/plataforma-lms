@@ -77,6 +77,7 @@ export type AppEventName =
   | 'TITULACION_PHASE_SUBMITTED'
   | 'TITULACION_PHASE_REVIEWED'
   | 'COURSE_COMPLETED'
+  | 'VOTE_CAST'
 
 interface BaseEventPayload {
   /** Fecha ISO 8601 del evento. La rellena `EventBus`, no quien emite. */
@@ -343,6 +344,18 @@ export interface CourseCompletedPayload extends BaseEventPayload {
   studentId: string
 }
 
+/** Un alumno vota por un compañero en el Leaderboard (Sprint Leaderboard, votación entre alumnos). */
+export interface VoteCastPayload extends BaseEventPayload {
+  voteId: string
+  subjectId: string
+  subjectName: string
+  voterId: string
+  voterName: string
+  candidateId: string
+  candidateName: string
+  reason?: string
+}
+
 /** Mapa evento → forma del payload. `EventBus` se tipa a partir de esta interfaz. */
 export interface AppEventMap {
   REPORT_SUBMITTED: ReportSubmittedPayload
@@ -392,4 +405,5 @@ export interface AppEventMap {
   TITULACION_PHASE_SUBMITTED: TitulacionPhaseSubmittedPayload
   TITULACION_PHASE_REVIEWED: TitulacionPhaseReviewedPayload
   COURSE_COMPLETED: CourseCompletedPayload
+  VOTE_CAST: VoteCastPayload
 }

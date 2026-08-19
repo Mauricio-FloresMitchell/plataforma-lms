@@ -46,6 +46,7 @@ export type NotificationType =
   | 'entraste_top3'
   | 'racha_oro'
   | 'nuevo_logro'
+  | 'voto_recibido'
   // Sistema
   | 'cambio_password'
   | 'inicio_sesion'
@@ -89,6 +90,7 @@ export const NOTIFICATION_TYPE_CATEGORY: Record<NotificationType, NotificationCa
   entraste_top3: 'gamificacion',
   racha_oro: 'gamificacion',
   nuevo_logro: 'gamificacion',
+  voto_recibido: 'gamificacion',
   cambio_password: 'sistema',
   inicio_sesion: 'sistema',
   actualizacion: 'sistema',
@@ -128,6 +130,7 @@ export const NOTIFICATION_TYPE_ICON: Record<NotificationType, string> = {
   entraste_top3: 'Trophy',
   racha_oro: 'Flame',
   nuevo_logro: 'Star',
+  voto_recibido: 'Users',
   cambio_password: 'KeyRound',
   inicio_sesion: 'LogIn',
   actualizacion: 'RefreshCw',
