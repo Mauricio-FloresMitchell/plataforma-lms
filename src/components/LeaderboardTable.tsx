@@ -1,6 +1,8 @@
-import { PartyPopper } from 'lucide-react'
+import type { SyntheticEvent } from 'react'
+import { PartyPopper, ThumbsUp } from 'lucide-react'
 import { Card } from '@/components/ui/card'
 import { Progress } from '@/components/ui/progress'
+import { Button } from '@/components/ui/button'
 import { RankMovementIndicator } from '@/components/RankMovementIndicator'
 import { StudentStatusBadge } from '@/components/StudentStatusBadge'
 import { OpenChatButton } from '@/features/comunicacion/components/OpenChatButton'
@@ -16,6 +18,12 @@ interface LeaderboardTableProps {
   /** Habilita "Felicitar" (Parte 14) en el Top 3 para Profesor/Administrador; ausente = no se muestra. */
   currentUserId?: string
   currentUserRole?: Role
+  /** Vista Profesor: si se provee, cada fila es clickeable y abre el panel de puntos/insignias del alumno. */
+  onSelectStudent?: (entry: LeaderboardEntry) => void
+  /** Vista Alumno: si se provee, cada fila (salvo la propia) muestra el botón "Votar". */
+  onVoteStudent?: (entry: LeaderboardEntry) => void
+  /** Vista Alumno: el alumno en sesión ya tiene un voto pendiente de revisión — deshabilita "Votar". */
+  voterHasPendingVote?: boolean
 }
 
 const MEDALS = ['🥇', '🥈', '🥉']
@@ -27,7 +35,16 @@ function badgeIcons(badgeIds: string[], badges: BadgeType[]) {
 }
 
 /** Tabla de Leaderboard reutilizable por Alumno, Profesor y Administrador (Sprint Leaderboard). */
-export function LeaderboardTable({ entries, badges, highlightStudentId, currentUserId, currentUserRole }: LeaderboardTableProps) {
+export function LeaderboardTable({
+  entries,
+  badges,
+  highlightStudentId,
+  currentUserId,
+  currentUserRole,
+  onSelectStudent,
+  onVoteStudent,
+  voterHasPendingVote,
+}: LeaderboardTableProps) {
   const canCongratulate = currentUserRole === 'profesor' || currentUserRole === 'administrador'
   if (entries.length === 0) {
     return <p className="text-sm text-muted-foreground text-center py-8">Aún no hay alumnos en este ranking.</p>
@@ -35,13 +52,20 @@ export function LeaderboardTable({ entries, badges, highlightStudentId, currentU
 
   const top3 = entries.slice(0, 3)
 
+  function stopRowClick(event: SyntheticEvent) {
+    event.stopPropagation()
+  }
+
   return (
     <div className="flex flex-col gap-6">
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
         {top3.map((entry, index) => (
           <Card
             key={entry.studentId}
-            className={`p-4 text-center ${entry.studentId === highlightStudentId ? 'ring-2 ring-primary' : ''}`}
+            onClick={onSelectStudent ? () => onSelectStudent(entry) : undefined}
+            className={`p-4 text-center ${entry.studentId === highlightStudentId ? 'ring-2 ring-primary' : ''} ${
+              onSelectStudent ? 'cursor-pointer transition-shadow hover:shadow-md' : ''
+            }`}
           >
             <div className="text-3xl">{MEDALS[index]}</div>
             <p className="mt-1 font-semibold text-sm">{entry.studentName}</p>
@@ -51,14 +75,33 @@ export function LeaderboardTable({ entries, badges, highlightStudentId, currentU
               <StudentStatusBadge status={entry.status} />
             </div>
             {canCongratulate && currentUserId && entry.studentId !== currentUserId ? (
-              <OpenChatButton
-                recipientId={entry.studentId}
-                recipientName={entry.studentName}
-                label="Felicitar"
-                icon={PartyPopper}
-                draftMessage={`¡Felicidades por tu lugar #${entry.rank} en el ranking de ${entry.subjectName}!`}
+              <div onClick={stopRowClick}>
+                <OpenChatButton
+                  recipientId={entry.studentId}
+                  recipientName={entry.studentName}
+                  label="Felicitar"
+                  icon={PartyPopper}
+                  draftMessage={`¡Felicidades por tu lugar #${entry.rank} en el ranking de ${entry.subjectName}!`}
+                  className="mt-3 w-full"
+                />
+              </div>
+            ) : null}
+            {onVoteStudent && entry.studentId !== currentUserId ? (
+              <Button
+                type="button"
+                size="sm"
+                variant="outline"
                 className="mt-3 w-full"
-              />
+                disabled={voterHasPendingVote}
+                title={voterHasPendingVote ? 'Ya tienes un voto pendiente de revisión' : undefined}
+                onClick={(event) => {
+                  stopRowClick(event)
+                  onVoteStudent(entry)
+                }}
+              >
+                <ThumbsUp className="size-3.5" />
+                Votar
+              </Button>
             ) : null}
           </Card>
         ))}
@@ -80,9 +123,10 @@ export function LeaderboardTable({ entries, badges, highlightStudentId, currentU
         {entries.map((entry) => (
           <Card
             key={entry.studentId}
+            onClick={onSelectStudent ? () => onSelectStudent(entry) : undefined}
             className={`grid grid-cols-2 gap-2 p-3 text-sm sm:grid-cols-[3rem_1fr_8rem_5rem_6rem_5rem_8rem_8rem_6rem] sm:items-center ${
               entry.studentId === highlightStudentId ? 'ring-2 ring-primary bg-primary/5' : ''
-            }`}
+            } ${onSelectStudent ? 'cursor-pointer transition-shadow hover:shadow-md' : ''}`}
           >
             <span className="flex items-center gap-1 font-medium">
               {entry.rank}
@@ -104,7 +148,26 @@ export function LeaderboardTable({ entries, badges, highlightStudentId, currentU
               <Progress value={entry.titulacionProgress} className="h-2 w-16" />
               <span className="text-xs text-muted-foreground">{entry.titulacionProgress}%</span>
             </span>
-            <StudentStatusBadge status={entry.status} />
+            <span className="flex items-center justify-between gap-2">
+              <StudentStatusBadge status={entry.status} />
+              {onVoteStudent && entry.studentId !== currentUserId ? (
+                <Button
+                  type="button"
+                  size="sm"
+                  variant="ghost"
+                  className="h-7 px-2 text-xs"
+                  disabled={voterHasPendingVote}
+                  title={voterHasPendingVote ? 'Ya tienes un voto pendiente de revisión' : undefined}
+                  onClick={(event) => {
+                    stopRowClick(event)
+                    onVoteStudent(entry)
+                  }}
+                >
+                  <ThumbsUp className="size-3.5" />
+                  Votar
+                </Button>
+              ) : null}
+            </span>
           </Card>
         ))}
       </div>

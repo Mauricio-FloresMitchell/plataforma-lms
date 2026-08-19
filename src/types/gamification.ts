@@ -15,6 +15,7 @@ export type PointActionId =
   | 'pregunta_foro'
   | 'respuesta_foro'
   | 'consulta_foro'
+  | 'mejor_solucion_breakout'
   | 'tardanza'
   | 'ausencia'
 

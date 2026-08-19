@@ -37,7 +37,7 @@ export function ManagePointsPage() {
   const [students, setStudents] = useState<StudentEvaluation[]>([])
   const [studentId, setStudentId] = useState(searchParams.get('alumno') ?? '')
   const [catalog, setCatalog] = useState<PointCatalogEntry[]>([])
-  const [actionId, setActionId] = useState<PointActionId | ''>('')
+  const [actionIds, setActionIds] = useState<PointActionId[]>([])
   const [movements, setMovements] = useState<PointMovement[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [isSaving, setIsSaving] = useState(false)
@@ -65,16 +65,27 @@ export function ManagePointsPage() {
     listPointMovementsAsync(subjectId, studentId).then(setMovements)
   }, [subjectId, studentId])
 
+  function toggleAction(actionId: PointActionId) {
+    setActionIds((current) =>
+      current.includes(actionId) ? current.filter((id) => id !== actionId) : [...current, actionId],
+    )
+  }
+
   async function handleRegister() {
-    if (!subjectId || !studentId || !actionId || !user) return
+    if (!subjectId || !studentId || actionIds.length === 0 || !user) return
     setIsSaving(true)
     setConfirmation(null)
     try {
-      await recordPointMovementAsync(studentId, subjectId, actionId, user.name, { id: user.id, name: user.name, role: user.role })
+      const actor = { id: user.id, name: user.name, role: user.role }
+      for (const actionId of actionIds) {
+        await recordPointMovementAsync(studentId, subjectId, actionId, user.name, actor)
+      }
       const refreshed = await listPointMovementsAsync(subjectId, studentId)
       setMovements(refreshed)
-      setActionId('')
-      setConfirmation('Movimiento de puntos registrado.')
+      setActionIds([])
+      setConfirmation(
+        actionIds.length === 1 ? 'Movimiento de puntos registrado.' : `${actionIds.length} movimientos de puntos registrados.`,
+      )
     } finally {
       setIsSaving(false)
     }
@@ -82,6 +93,9 @@ export function ManagePointsPage() {
 
   const selectedStudent = students.find((s) => s.studentId === studentId)
   const totalPoints = movements.reduce((sum, m) => sum + m.points, 0)
+  const selectedPointsSum = catalog
+    .filter((entry) => actionIds.includes(entry.id))
+    .reduce((sum, entry) => sum + entry.points, 0)
 
   return (
     <div className="space-y-6">
@@ -141,11 +155,13 @@ export function ManagePointsPage() {
           {selectedStudent ? (
             <>
               <div className="space-y-3">
-                <h2 className="text-sm font-semibold">Catálogo de acciones</h2>
-                <PointCatalogPicker catalog={catalog} selectedActionId={actionId} onSelect={setActionId} />
-                <Button onClick={handleRegister} disabled={!actionId || isSaving} className="h-10">
+                <h2 className="text-sm font-semibold">Catálogo de acciones · selecciona una o varias</h2>
+                <PointCatalogPicker catalog={catalog} selectedActionIds={actionIds} onToggle={toggleAction} />
+                <Button onClick={handleRegister} disabled={actionIds.length === 0 || isSaving} className="h-10">
                   <Coins className="size-4" />
-                  Registrar movimiento
+                  {actionIds.length > 1
+                    ? `Registrar ${actionIds.length} acciones (${selectedPointsSum > 0 ? '+' : ''}${selectedPointsSum} pts)`
+                    : 'Registrar movimiento'}
                 </Button>
               </div>
 
