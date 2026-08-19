@@ -8,7 +8,7 @@ let TEACHER_ANNOUNCEMENTS: TeacherAnnouncement[] = [
   {
     id: 'tann-001',
     subjectId: 'sub-001',
-    subjectName: 'Administración Estratégica',
+    subjectName: 'Clase Modelo 1 y Modelo 2',
     scope: 'materia',
     content: 'Se adelanta la fecha del examen parcial al 15 de agosto.',
     attachments: [],
@@ -17,9 +17,9 @@ let TEACHER_ANNOUNCEMENTS: TeacherAnnouncement[] = [
   {
     id: 'tann-002',
     subjectId: 'sub-001',
-    subjectName: 'Administración Estratégica',
+    subjectName: 'Clase Modelo 1 y Modelo 2',
     scope: 'alumno',
-    targetName: 'Estudiante 3',
+    targetName: 'Patricia Delgado Garcia',
     content: 'Recuerda entregar tu reporte pendiente de la semana 10.',
     attachments: [],
     createdAt: '2026-07-24T12:00:00.000Z',

@@ -8,58 +8,33 @@ import type { StudentDashboard } from '@/types/student'
 const DASHBOARD_BY_STUDENT: Record<string, StudentDashboard> = {
   'usr-alumno-001': {
     summary: {
-      studentName: 'María García López',
+      studentName: 'Andrea Guadalupe Mendez Guzman',
       careerName: 'Licenciatura en Administración',
-      groupName: 'ADM-501',
+      groupName: 'CMM-101',
       periodName: 'Ciclo 2026-1',
     },
     kpis: {
-      subjectsCount: 5,
-      pendingReports: 2,
-      badgesEarned: 7,
+      subjectsCount: 1,
+      pendingReports: 1,
+      badgesEarned: 3,
       competencyLevel: 'A',
     },
     progress: {
-      completedActivities: 18,
-      totalActivities: 24,
-      percentage: 75,
+      completedActivities: 2,
+      totalActivities: 3,
+      percentage: 67,
       competencies: [
         { id: 'cmp-001', name: 'Pensamiento analítico', level: 'A+' },
         { id: 'cmp-002', name: 'Comunicación efectiva', level: 'A' },
         { id: 'cmp-003', name: 'Trabajo colaborativo', level: 'B+' },
-        { id: 'cmp-004', name: 'Gestión de proyectos', level: 'B' },
       ],
     },
     subjects: [
       {
         id: 'sub-001',
-        name: 'Administración Estratégica',
-        teacherName: 'Carlos Méndez Ruiz',
+        name: 'Clase Modelo 1 y Modelo 2',
+        teacherName: 'Lic. Yesus Eleazar González',
         progress: 82,
-      },
-      {
-        id: 'sub-002',
-        name: 'Mercadotecnia Digital',
-        teacherName: 'Laura Ibáñez Soto',
-        progress: 64,
-      },
-      {
-        id: 'sub-003',
-        name: 'Finanzas Corporativas',
-        teacherName: 'Roberto Cano Díaz',
-        progress: 71,
-      },
-      {
-        id: 'sub-004',
-        name: 'Comportamiento Organizacional',
-        teacherName: 'Carlos Méndez Ruiz',
-        progress: 90,
-      },
-      {
-        id: 'sub-005',
-        name: 'Innovación y Emprendimiento',
-        teacherName: 'Diana Ferrer Luna',
-        progress: 48,
       },
     ],
     recentActivity: [
@@ -67,7 +42,7 @@ const DASHBOARD_BY_STUDENT: Record<string, StudentDashboard> = {
         id: 'act-001',
         kind: 'feedback',
         title: 'Retroalimentación recibida',
-        description: 'Carlos Méndez comentó tu reporte de la semana 11.',
+        description: 'Lic. Yesus González comentó tu reporte de la semana 11.',
         date: '2026-07-22T16:30:00.000Z',
       },
       {
@@ -81,7 +56,7 @@ const DASHBOARD_BY_STUDENT: Record<string, StudentDashboard> = {
         id: 'act-003',
         kind: 'report',
         title: 'Reporte aprobado',
-        description: 'Tu reporte semanal de Finanzas Corporativas fue aprobado.',
+        description: 'Tu reporte semanal de Clase Modelo 1 y Modelo 2 fue aprobado.',
         date: '2026-07-20T11:20:00.000Z',
       },
       {
@@ -96,20 +71,14 @@ const DASHBOARD_BY_STUDENT: Record<string, StudentDashboard> = {
       {
         id: 'upc-001',
         title: 'Reporte semanal 12',
-        subtitle: 'Administración Estratégica',
+        subtitle: 'Clase Modelo 1 y Modelo 2',
         dueDate: '2026-07-25T23:59:00.000Z',
       },
       {
         id: 'upc-002',
         title: 'Entrega de evidencias',
-        subtitle: 'Mercadotecnia Digital',
+        subtitle: 'Clase Modelo 1 y Modelo 2',
         dueDate: '2026-07-27T23:59:00.000Z',
-      },
-      {
-        id: 'upc-003',
-        title: 'Reporte semanal 12',
-        subtitle: 'Innovación y Emprendimiento',
-        dueDate: '2026-07-29T23:59:00.000Z',
       },
     ],
     announcements: [

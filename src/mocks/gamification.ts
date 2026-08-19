@@ -48,7 +48,7 @@ function movement(
     actionId,
     label: entry.label,
     points: entry.points,
-    registeredBy: 'Ing. Carlos Mendoza',
+    registeredBy: 'Lic. Yesus Eleazar González',
     createdAt,
   }
 }
@@ -62,15 +62,15 @@ let POINT_MOVEMENTS: PointMovement[] = [
   movement('pm-005', 'usr-alumno-001', 'sub-001', 'consulta_foro', 3),
   movement('pm-006', 'usr-alumno-001', 'sub-001', 'respuesta_foro', 2),
 
-  movement('pm-007', 'std-001', 'sub-001', 'reporte_entregado', 14),
-  movement('pm-008', 'std-001', 'sub-001', 'reporte_entregado', 7),
-  movement('pm-009', 'std-001', 'sub-001', 'pitch', 6),
-  movement('pm-010', 'std-001', 'sub-001', 'empresa_nueva', 3),
-  movement('pm-011', 'std-001', 'sub-001', 'respuesta_foro', 2),
-  movement('pm-012', 'std-001', 'sub-001', 'respuesta_foro', 1),
+  movement('pm-007', 'std-002', 'sub-001', 'reporte_entregado', 14),
+  movement('pm-008', 'std-002', 'sub-001', 'reporte_entregado', 7),
+  movement('pm-009', 'std-002', 'sub-001', 'pitch', 6),
+  movement('pm-010', 'std-002', 'sub-001', 'empresa_nueva', 3),
+  movement('pm-011', 'std-002', 'sub-001', 'respuesta_foro', 2),
+  movement('pm-012', 'std-002', 'sub-001', 'respuesta_foro', 1),
 
-  movement('pm-013', 'std-002', 'sub-001', 'reporte_entregado', 10),
-  movement('pm-014', 'std-002', 'sub-001', 'tardanza', 6),
+  movement('pm-013', 'std-003', 'sub-001', 'reporte_entregado', 10),
+  movement('pm-014', 'std-003', 'sub-001', 'tardanza', 6),
 
   movement('pm-015', 'std-004', 'sub-001', 'reporte_entregado', 9),
   movement('pm-016', 'std-004', 'sub-001', 'consulta_foro', 8),
@@ -78,9 +78,9 @@ let POINT_MOVEMENTS: PointMovement[] = [
   movement('pm-018', 'std-004', 'sub-001', 'respuesta_foro', 2),
   movement('pm-019', 'std-004', 'sub-001', 'empresa_nueva', 1),
 
-  movement('pm-020', 'std-201', 'sub-006', 'reporte_entregado', 9),
-  movement('pm-021', 'std-201', 'sub-006', 'pregunta_foro', 5),
-  movement('pm-022', 'std-202', 'sub-006', 'ausencia', 4),
+  movement('pm-020', 'std-005', 'sub-001', 'reporte_entregado', 9),
+  movement('pm-021', 'std-005', 'sub-001', 'pregunta_foro', 5),
+  movement('pm-022', 'std-006', 'sub-001', 'ausencia', 4),
 ]
 
 let sequence = 100

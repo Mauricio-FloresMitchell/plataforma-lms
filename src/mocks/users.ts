@@ -17,18 +17,18 @@ export const MOCK_PASSWORD = 'demo1234'
 export const MOCK_USERS: MockUser[] = [
   {
     id: 'usr-alumno-001',
-    name: 'María García López',
+    name: 'Andrea Guadalupe Mendez Guzman',
     email: 'alumno@ludiclass.com',
     role: 'alumno',
-    avatarInitials: 'MG',
+    avatarInitials: 'AM',
     password: MOCK_PASSWORD,
   },
   {
     id: 'usr-profesor-001',
-    name: 'Carlos Méndez Ruiz',
+    name: 'Lic. Yesus Eleazar González',
     email: 'profesor@ludiclass.com',
     role: 'profesor',
-    avatarInitials: 'CM',
+    avatarInitials: 'YG',
     password: MOCK_PASSWORD,
   },
   {

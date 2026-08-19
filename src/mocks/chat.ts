@@ -80,17 +80,17 @@ function seedConversation(
   return { conversation, members }
 }
 
-const MARIA: Participant = { id: 'usr-alumno-001', name: 'María García López', role: 'alumno' }
-const CARLOS: Participant = { id: 'usr-profesor-001', name: 'Carlos Méndez Ruiz', role: 'profesor' }
+const ANDREA: Participant = { id: 'usr-alumno-001', name: 'Andrea Guadalupe Mendez Guzman', role: 'alumno' }
+const YESUS: Participant = { id: 'usr-profesor-001', name: 'Lic. Yesus Eleazar González', role: 'profesor' }
 const ANA: Participant = { id: 'usr-admin-001', name: 'Ana Torres Vega', role: 'administrador' }
 
-const seed1 = seedConversation('conv-001', 'individual', 'María García López, Carlos Méndez Ruiz', CARLOS.id, [MARIA, CARLOS], {
+const seed1 = seedConversation('conv-001', 'individual', 'Andrea Guadalupe Mendez Guzman, Lic. Yesus Eleazar González', YESUS.id, [ANDREA, YESUS], {
   contextType: 'evaluacion',
   contextId: 'eval-001',
-  contextLabel: 'Evaluación — Administración Estratégica',
+  contextLabel: 'Evaluación — Clase Modelo 1 y Modelo 2',
 })
-const seed2 = seedConversation('conv-002', 'individual', 'María García López, Ana Torres Vega', MARIA.id, [MARIA, ANA])
-const seed3 = seedConversation('conv-003', 'institucional', 'Comunicados Institucionales', ANA.id, [MARIA, CARLOS, ANA], {
+const seed2 = seedConversation('conv-002', 'individual', 'Andrea Guadalupe Mendez Guzman, Ana Torres Vega', ANDREA.id, [ANDREA, ANA])
+const seed3 = seedConversation('conv-003', 'institucional', 'Comunicados Institucionales', ANA.id, [ANDREA, YESUS, ANA], {
   isPinned: true,
 })
 
@@ -124,14 +124,14 @@ function seedMessage(
 
 const conv1Msg1 = seedMessage(
   'conv-001',
-  CARLOS,
-  'Hola María, ya revisé tu evaluación de Administración Estratégica; dejé retroalimentación sobre el análisis FODA.',
+  YESUS,
+  'Hola Andrea, ya revisé tu evaluación de Clase Modelo 1 y Modelo 2; dejé retroalimentación sobre el análisis FODA.',
   2,
   4,
 )
 const conv1Msg2 = seedMessage(
   'conv-001',
-  MARIA,
+  ANDREA,
   '¡Gracias, profesor! ¿Podría darme un poco más de detalle sobre la parte de estrategias de precio?',
   2,
   2,
@@ -139,13 +139,13 @@ const conv1Msg2 = seedMessage(
 )
 const conv1Msg3 = seedMessage(
   'conv-001',
-  CARLOS,
+  YESUS,
   'Claro, lo vemos en la próxima asesoría. Mientras tanto revisa el material de la unidad 3.',
   1,
 )
 
-const conv2Msg1 = seedMessage('conv-002', MARIA, 'Buenas tardes, quisiera confirmar mi documentación de matrícula del ciclo 2026-1.', 3, 3)
-const conv2Msg2 = seedMessage('conv-002', ANA, 'Hola María, todo en orden: tu matrícula quedó confirmada.', 3)
+const conv2Msg1 = seedMessage('conv-002', ANDREA, 'Buenas tardes, quisiera confirmar mi documentación de matrícula del ciclo 2026-1.', 3, 3)
+const conv2Msg2 = seedMessage('conv-002', ANA, 'Hola Andrea, todo en orden: tu matrícula quedó confirmada.', 3)
 
 const conv3Msg1 = seedMessage(
   'conv-003',
@@ -163,9 +163,9 @@ function setMemberLastRead(conversationId: string, userId: string, lastReadAt: s
   const member = MEMBERS.find((item) => item.conversationId === conversationId && item.userId === userId)
   if (member) member.lastReadAt = lastReadAt
 }
-setMemberLastRead('conv-001', MARIA.id, conv1Msg2.createdAt)
-setMemberLastRead('conv-001', CARLOS.id, conv1Msg3.createdAt)
-setMemberLastRead('conv-002', MARIA.id, conv2Msg1.createdAt)
+setMemberLastRead('conv-001', ANDREA.id, conv1Msg2.createdAt)
+setMemberLastRead('conv-001', YESUS.id, conv1Msg3.createdAt)
+setMemberLastRead('conv-002', ANDREA.id, conv2Msg1.createdAt)
 setMemberLastRead('conv-002', ANA.id, conv2Msg2.createdAt)
 setMemberLastRead('conv-003', ANA.id, conv3Msg1.createdAt)
 

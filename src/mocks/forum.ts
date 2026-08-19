@@ -60,10 +60,9 @@ export const FORUM_CATEGORIES: ForumCategory[] = [
 ]
 
 const AUTHORS: Record<string, ForumAuthor> = {
-  maria: { id: 'usr-alumno-001', name: 'María García López', role: 'alumno', initials: 'MG' },
-  jorge: { id: 'usr-alumno-050', name: 'Jorge Ramírez Peña', role: 'alumno', initials: 'JR' },
-  carlos: { id: 'usr-profesor-001', name: 'Carlos Méndez Ruiz', role: 'profesor', initials: 'CM' },
-  laura: { id: 'usr-profesor-002', name: 'Laura Ibáñez Soto', role: 'profesor', initials: 'LI' },
+  andrea: { id: 'usr-alumno-001', name: 'Andrea Guadalupe Mendez Guzman', role: 'alumno', initials: 'AM' },
+  axel: { id: 'std-002', name: 'Axel Martínez Betanzos', role: 'alumno', initials: 'AB' },
+  yesus: { id: 'usr-profesor-001', name: 'Lic. Yesus Eleazar González', role: 'profesor', initials: 'YG' },
   ana: { id: 'usr-admin-001', name: 'Ana Torres Vega', role: 'administrador', initials: 'AT' },
 }
 
@@ -82,7 +81,7 @@ let POSTS: StoredPost[] = [
     categoryId: 'dudas',
     categoryName: 'Dudas académicas',
     tags: ['administración', 'reportes'],
-    author: AUTHORS.maria,
+    author: AUTHORS.andrea,
     createdAt: '2026-07-22T16:00:00.000Z',
     commentCount: 0,
     isPinned: false,
@@ -91,11 +90,11 @@ let POSTS: StoredPost[] = [
     comments: [
       {
         id: 'cmt-001',
-        author: AUTHORS.carlos,
+        author: AUTHORS.yesus,
         content:
-          'Buena pregunta, María. Empieza por identificar las actividades que agregan valor directo al servicio (operaciones, marketing) y luego las de soporte (infraestructura, RRHH).',
+          'Buena pregunta, Andrea. Empieza por identificar las actividades que agregan valor directo al servicio (operaciones, marketing) y luego las de soporte (infraestructura, RRHH).',
         createdAt: '2026-07-22T17:10:00.000Z',
-        reactions: [reaction('👍', [AUTHORS.maria.id, AUTHORS.jorge.id])],
+        reactions: [reaction('👍', [AUTHORS.andrea.id, AUTHORS.axel.id])],
         isFeatured: true,
         featuredByName: AUTHORS.ana.name,
         featuredAt: '2026-07-23T09:00:00.000Z',
@@ -103,7 +102,7 @@ let POSTS: StoredPost[] = [
         replies: [
           {
             id: 'rep-001',
-            author: AUTHORS.maria,
+            author: AUTHORS.andrea,
             content: 'Gracias, profesor. ¿La atención al cliente contaría como actividad primaria?',
             createdAt: '2026-07-22T17:40:00.000Z',
             reactions: [],
@@ -112,10 +111,10 @@ let POSTS: StoredPost[] = [
           },
           {
             id: 'rep-002',
-            author: AUTHORS.carlos,
+            author: AUTHORS.yesus,
             content: 'En una empresa de servicios, sí: es parte del núcleo de la operación.',
             createdAt: '2026-07-22T18:05:00.000Z',
-            reactions: [reaction('💡', [AUTHORS.maria.id])],
+            reactions: [reaction('💡', [AUTHORS.andrea.id])],
             isFeatured: false,
             isDeleted: false,
           },
@@ -123,7 +122,7 @@ let POSTS: StoredPost[] = [
       },
       {
         id: 'cmt-002',
-        author: AUTHORS.jorge,
+        author: AUTHORS.axel,
         content: 'Yo usé el modelo de Porter y me ayudó a ordenar las ideas.',
         createdAt: '2026-07-22T19:00:00.000Z',
         reactions: [],
@@ -135,14 +134,14 @@ let POSTS: StoredPost[] = [
   },
   {
     id: 'post-002',
-    title: 'Recursos recomendados para finanzas corporativas',
-    excerpt: 'Comparto una lista de lecturas y hojas de cálculo que me sirvieron mucho…',
+    title: 'Recursos recomendados para el análisis de casos',
+    excerpt: 'Comparto una lista de lecturas y plantillas que me sirvieron mucho…',
     content:
-      'Dejo por aquí algunas lecturas y plantillas de hojas de cálculo que me ayudaron a entender las razones financieras. Si tienen más recursos, agréguenlos en los comentarios.',
+      'Dejo por aquí algunas lecturas y plantillas que me ayudaron a estructurar el análisis de casos de la materia. Si tienen más recursos, agréguenlos en los comentarios.',
     categoryId: 'recursos',
     categoryName: 'Recursos',
-    tags: ['finanzas', 'recursos'],
-    author: AUTHORS.laura,
+    tags: ['clase-modelo', 'recursos'],
+    author: AUTHORS.yesus,
     createdAt: '2026-07-21T14:30:00.000Z',
     commentCount: 0,
     isPinned: false,
@@ -151,8 +150,8 @@ let POSTS: StoredPost[] = [
     comments: [
       {
         id: 'cmt-003',
-        author: AUTHORS.maria,
-        content: '¡Excelente, profesora! La plantilla de razones me viene perfecta.',
+        author: AUTHORS.andrea,
+        content: '¡Excelente, profesor! La plantilla me viene perfecta.',
         createdAt: '2026-07-21T15:20:00.000Z',
         reactions: [],
         isFeatured: false,
@@ -181,14 +180,14 @@ let POSTS: StoredPost[] = [
   },
   {
     id: 'post-004',
-    title: 'Buscamos integrante para proyecto de innovación',
+    title: 'Buscamos integrante para proyecto final',
     excerpt: 'Somos un equipo de tres y nos falta una persona para el proyecto final…',
     content:
-      'Estamos desarrollando una propuesta de emprendimiento social y buscamos una persona con interés en mercadotecnia. Si te interesa, comenta aquí.',
+      'Estamos desarrollando una propuesta para el proyecto final de la materia y buscamos una persona más para el equipo. Si te interesa, comenta aquí.',
     categoryId: 'proyectos',
     categoryName: 'Proyectos',
-    tags: ['emprendimiento', 'equipo'],
-    author: AUTHORS.jorge,
+    tags: ['proyecto-final', 'equipo'],
+    author: AUTHORS.axel,
     createdAt: '2026-07-19T11:15:00.000Z',
     commentCount: 0,
     isPinned: false,
@@ -197,8 +196,8 @@ let POSTS: StoredPost[] = [
     comments: [
       {
         id: 'cmt-004',
-        author: AUTHORS.maria,
-        content: 'Me interesa, llevo Mercadotecnia Digital este ciclo.',
+        author: AUTHORS.andrea,
+        content: 'Me interesa, cuenta conmigo.',
         createdAt: '2026-07-19T12:00:00.000Z',
         reactions: [],
         isFeatured: false,
@@ -206,7 +205,7 @@ let POSTS: StoredPost[] = [
         replies: [
           {
             id: 'rep-003',
-            author: AUTHORS.jorge,
+            author: AUTHORS.axel,
             content: '¡Genial! Te escribo por interno para coordinar.',
             createdAt: '2026-07-19T12:30:00.000Z',
             reactions: [],

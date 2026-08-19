@@ -25,22 +25,13 @@ export interface SubjectOption {
 
 /**
  * Materias disponibles para el alumno al crear un reporte, con la plantilla
- * académica (Sprint 12) que le corresponde según su carrera. Se agregaron 4
- * materias de muestra (sub-201..sub-204) exclusivas de este módulo para que
- * las 7 plantillas puedan probarse de punta a punta con la única cuenta demo
- * de alumno; no afectan el listado real de Materias (`mocks/subjects.ts`).
+ * académica (Sprint 12) que le corresponde según su carrera. Con una sola
+ * materia y un solo grupo en la demo, la única cuenta real de alumno solo
+ * tiene una opción disponible.
  */
 const SUBJECTS_BY_STUDENT: Record<string, SubjectOption[]> = {
   'usr-alumno-001': [
-    { id: 'sub-001', name: 'Administración Estratégica', templateId: 'R01', career: 'Administración' },
-    { id: 'sub-002', name: 'Mercadotecnia Digital', templateId: 'R07', career: 'Mercadotecnia' },
-    { id: 'sub-003', name: 'Finanzas Corporativas', templateId: 'R06', career: 'Contabilidad' },
-    { id: 'sub-004', name: 'Comportamiento Organizacional', templateId: 'R01', career: 'Negocios Internacionales' },
-    { id: 'sub-005', name: 'Innovación y Emprendimiento', templateId: 'R01', career: 'Administración' },
-    { id: 'sub-201', name: 'Desarrollo de Software', templateId: 'R02', career: 'Ingeniería en Sistemas' },
-    { id: 'sub-202', name: 'Derecho Corporativo', templateId: 'R03', career: 'Derecho' },
-    { id: 'sub-203', name: 'Diseño Curricular', templateId: 'R04', career: 'Pedagogía' },
-    { id: 'sub-204', name: 'Psicología Organizacional', templateId: 'R05', career: 'Psicología' },
+    { id: 'sub-001', name: 'Clase Modelo 1 y Modelo 2', templateId: 'R01', career: 'Administración' },
   ],
 }
 
@@ -48,10 +39,10 @@ let REPORTS: WeeklyReport[] = [
   {
     id: 'rep-101',
     studentId: 'usr-alumno-001',
-    studentName: 'María García López',
+    studentName: 'Andrea Guadalupe Mendez Guzman',
     subjectId: 'sub-001',
-    subjectName: 'Administración Estratégica',
-    groupName: 'ADM-501',
+    subjectName: 'Clase Modelo 1 y Modelo 2',
+    groupName: 'CMM-101',
     week: 11,
     title: 'Análisis de la cadena de valor',
     content:
@@ -63,11 +54,11 @@ let REPORTS: WeeklyReport[] = [
   },
   {
     id: 'rep-102',
-    studentId: 'usr-alumno-050',
-    studentName: 'Jorge Ramírez Peña',
-    subjectId: 'sub-004',
-    subjectName: 'Comportamiento Organizacional',
-    groupName: 'ADM-402',
+    studentId: 'std-002',
+    studentName: 'Axel Martínez Betanzos',
+    subjectId: 'sub-001',
+    subjectName: 'Clase Modelo 1 y Modelo 2',
+    groupName: 'CMM-101',
     week: 11,
     title: 'Clima organizacional del equipo',
     content:
@@ -79,11 +70,11 @@ let REPORTS: WeeklyReport[] = [
   },
   {
     id: 'rep-103',
-    studentId: 'usr-alumno-051',
-    studentName: 'Lucía Fernández Mora',
-    subjectId: 'sub-007',
-    subjectName: 'Gestión del Talento',
-    groupName: 'ADM-303',
+    studentId: 'std-003',
+    studentName: 'Edith Hortencia Ramírez Hernández',
+    subjectId: 'sub-001',
+    subjectName: 'Clase Modelo 1 y Modelo 2',
+    groupName: 'CMM-101',
     week: 10,
     title: 'Plan de capacitación',
     content:
@@ -95,11 +86,11 @@ let REPORTS: WeeklyReport[] = [
   },
   {
     id: 'rep-104',
-    studentId: 'usr-alumno-052',
-    studentName: 'Andrés Solís Vega',
+    studentId: 'std-004',
+    studentName: 'Fernando Dominguez Chavez',
     subjectId: 'sub-001',
-    subjectName: 'Administración Estratégica',
-    groupName: 'ADM-501',
+    subjectName: 'Clase Modelo 1 y Modelo 2',
+    groupName: 'CMM-101',
     week: 11,
     title: 'Matriz FODA aplicada',
     content:
@@ -112,10 +103,10 @@ let REPORTS: WeeklyReport[] = [
   {
     id: 'rep-090',
     studentId: 'usr-alumno-001',
-    studentName: 'María García López',
-    subjectId: 'sub-003',
-    subjectName: 'Finanzas Corporativas',
-    groupName: 'ADM-501',
+    studentName: 'Andrea Guadalupe Mendez Guzman',
+    subjectId: 'sub-001',
+    subjectName: 'Clase Modelo 1 y Modelo 2',
+    groupName: 'CMM-101',
     week: 10,
     title: 'Análisis de razones financieras',
     content:
@@ -132,10 +123,10 @@ let REPORTS: WeeklyReport[] = [
   {
     id: 'rep-085',
     studentId: 'usr-alumno-001',
-    studentName: 'María García López',
-    subjectId: 'sub-002',
-    subjectName: 'Mercadotecnia Digital',
-    groupName: 'ADM-501',
+    studentName: 'Andrea Guadalupe Mendez Guzman',
+    subjectId: 'sub-001',
+    subjectName: 'Clase Modelo 1 y Modelo 2',
+    groupName: 'CMM-101',
     week: 9,
     title: 'Propuesta de campaña digital',
     content:
@@ -214,7 +205,7 @@ export function insertReport(
     studentName,
     subjectId: input.subjectId,
     subjectName: subject?.name ?? 'Materia',
-    groupName: 'ADM-501',
+    groupName: 'CMM-101',
     week: input.week,
     title: `Semana ${input.week} · ${template.name}`,
     content: summarizeAnswers(input),

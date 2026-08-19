@@ -14,8 +14,7 @@ let PLANS: StudyPlan[] = [
 ]
 
 let TERMS: AcademicTerm[] = [
-  { id: nextId('term'), planId: PLANS[0].id, planName: PLANS[0].name, number: 1, subjectNames: ['Fundamentos de Administración', 'Matemáticas I'] },
-  { id: nextId('term'), planId: PLANS[0].id, planName: PLANS[0].name, number: 5, subjectNames: ['Administración Estratégica', 'Comportamiento Organizacional'] },
+  { id: nextId('term'), planId: PLANS[0].id, planName: PLANS[0].name, number: 1, subjectNames: ['Clase Modelo 1 y Modelo 2'] },
 ]
 
 export function listStudyPlans(): StudyPlan[] {

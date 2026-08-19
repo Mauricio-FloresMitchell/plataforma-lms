@@ -56,7 +56,7 @@ export function StudentProfilePage() {
             <Users className="w-5 h-5 text-muted-foreground mt-1 flex-shrink-0" />
             <div>
               <p className="text-sm text-muted-foreground mb-1">Grupo</p>
-              <p className="font-medium">ADM-501</p>
+              <p className="font-medium">CMM-101</p>
             </div>
           </div>
         </Card>
