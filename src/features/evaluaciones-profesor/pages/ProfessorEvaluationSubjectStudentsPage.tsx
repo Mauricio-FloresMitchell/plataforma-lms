@@ -1,10 +1,14 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { Award, Building2, MessageCircle, Users } from 'lucide-react'
+import { Award, Building2, GraduationCap, MessageCircle, Users } from 'lucide-react'
 import { getProfessorSubjectsAsync } from '@/services/subject.service'
 import { getProfessorStudentEvaluationsAsync } from '@/services/evaluation.service'
+import { getCompanyStatusMapAsync, setEmpresaPracticaAsync, type CompanyStatusEntry } from '@/services/company-status.service'
+import { listCompaniesForRosterAsync } from '@/services/company-prospect.service'
+import { useAuth } from '@/features/auth/hooks/useAuth'
 import type { ProfessorSubjectListItem } from '@/types/subject'
 import type { StudentEvaluation } from '@/types/evaluation'
+import type { CompanyProspect } from '@/types/company'
 import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -15,7 +19,9 @@ import { SearchInput } from '@/components/SearchInput'
 import { Pagination } from '@/components/Pagination'
 import { EvaluationStatusBadge } from '@/components/EvaluationStatusBadge'
 import { WeeklyReportStatusBadge } from '@/components/WeeklyReportStatusBadge'
+import { CompanySemaphoreBadge } from '@/components/CompanySemaphoreBadge'
 import { OpenChatButton } from '@/features/comunicacion/components/OpenChatButton'
+import { StudentCompaniesSheet } from '../components/StudentCompaniesSheet'
 import { useSearch } from '@/hooks/useSearch'
 import { usePagination } from '@/hooks/usePagination'
 
@@ -27,10 +33,25 @@ const searchFields = (student: StudentEvaluation) => [
 
 /** Alumnos asignados a una materia, punto de entrada al flujo de evaluación individual. */
 export function ProfessorEvaluationSubjectStudentsPage() {
+  const { user } = useAuth()
   const { subjectId } = useParams<{ subjectId: string }>()
   const [subject, setSubject] = useState<ProfessorSubjectListItem | null>(null)
   const [students, setStudents] = useState<StudentEvaluation[]>([])
+  const [companyStatus, setCompanyStatus] = useState<Record<string, CompanyStatusEntry>>({})
+  const [companiesByStudent, setCompaniesByStudent] = useState<Record<string, CompanyProspect[]>>({})
   const [isLoading, setIsLoading] = useState(true)
+  const [togglingStudentId, setTogglingStudentId] = useState<string | null>(null)
+  const [companiesSheetStudent, setCompaniesSheetStudent] = useState<StudentEvaluation | null>(null)
+
+  const loadCompanyStatus = useCallback(async (rosterSubjectId: string, roster: StudentEvaluation[]) => {
+    const studentIds = roster.map((student) => student.studentId)
+    const [statusMap, companiesMap] = await Promise.all([
+      getCompanyStatusMapAsync(rosterSubjectId, studentIds),
+      listCompaniesForRosterAsync(rosterSubjectId, studentIds),
+    ])
+    setCompanyStatus(statusMap)
+    setCompaniesByStudent(companiesMap)
+  }, [])
 
   useEffect(() => {
     if (!subjectId) return
@@ -44,6 +65,7 @@ export function ProfessorEvaluationSubjectStudentsPage() {
         ])
         setSubject(subjects.find((s) => s.id === subjectId) ?? null)
         setStudents(studentsData)
+        await loadCompanyStatus(subjectId, studentsData)
       } catch (error) {
         console.error('Error loading subject students:', error)
       } finally {
@@ -52,7 +74,19 @@ export function ProfessorEvaluationSubjectStudentsPage() {
     }
 
     loadData()
-  }, [subjectId])
+  }, [subjectId, loadCompanyStatus])
+
+  async function handleTogglePractice(student: StudentEvaluation) {
+    if (!user || !subjectId) return
+    setTogglingStudentId(student.studentId)
+    try {
+      const current = companyStatus[student.studentId]?.isEmpresaPractica ?? false
+      await setEmpresaPracticaAsync({ id: user.id, name: user.name, role: user.role }, subjectId, student.studentId, student.studentName, !current)
+      await loadCompanyStatus(subjectId, students)
+    } finally {
+      setTogglingStudentId(null)
+    }
+  }
 
   const getFields = useCallback(searchFields, [])
   const { query, setQuery, filtered } = useSearch(students, getFields)
@@ -101,43 +135,83 @@ export function ProfessorEvaluationSubjectStudentsPage() {
           ) : (
             <>
               <div className="grid gap-4 sm:grid-cols-2">
-                {pageItems.map((student) => (
-                  <Card key={student.studentId} className="p-5 space-y-4">
-                    <div>
-                      <h3 className="font-semibold">{student.studentName}</h3>
-                      <p className="text-sm text-muted-foreground mt-1">Grupo: {student.groupName}</p>
-                      <p className="flex items-center gap-1.5 text-sm text-muted-foreground mt-1">
-                        <Building2 className="size-3.5" />
-                        {student.company ?? 'Sin empresa asignada'}
-                      </p>
-                    </div>
+                {pageItems.map((student) => {
+                  const status = companyStatus[student.studentId]
+                  const companies = companiesByStudent[student.studentId] ?? []
+                  const confirmedCompany = companies.find((company) => company.status === 'confirmada')
+                  return (
+                    <Card key={student.studentId} className="p-5 space-y-4">
+                      <div>
+                        <h3 className="font-semibold">{student.studentName}</h3>
+                        <p className="text-sm text-muted-foreground mt-1">Grupo: {student.groupName}</p>
+                        <p className="flex items-center gap-1.5 text-sm text-muted-foreground mt-1">
+                          <Building2 className="size-3.5" />
+                          {confirmedCompany?.name ?? student.company ?? 'Sin empresa asignada'}
+                        </p>
+                        {status ? (
+                          <div className="mt-1.5">
+                            <CompanySemaphoreBadge semaphore={status.semaphore} lastReportSubmittedAt={status.lastReportSubmittedAt} />
+                          </div>
+                        ) : null}
+                        <Button
+                          type="button"
+                          variant="link"
+                          size="sm"
+                          className="h-auto p-0 text-xs"
+                          onClick={() => setCompaniesSheetStudent(student)}
+                        >
+                          Ver empresas ({companies.length})
+                        </Button>
+                      </div>
 
-                    <div className="flex flex-wrap gap-2">
-                      {student.weeklyReportStatus ? (
-                        <WeeklyReportStatusBadge status={student.weeklyReportStatus} />
-                      ) : null}
-                      <EvaluationStatusBadge status={student.status} />
-                    </div>
+                      <div className="flex flex-wrap gap-2">
+                        {student.weeklyReportStatus ? (
+                          <WeeklyReportStatusBadge status={student.weeklyReportStatus} />
+                        ) : null}
+                        <EvaluationStatusBadge status={student.status} />
+                      </div>
 
-                    <div className="flex gap-2">
-                      <Button asChild className="flex-1">
-                        <Link to={`/profesor/evaluaciones/${subjectId}/${student.studentId}`}>Evaluar</Link>
+                      <div className="flex gap-2">
+                        <Button asChild className="flex-1">
+                          <Link to={`/profesor/evaluaciones/${subjectId}/${student.studentId}`}>Evaluar</Link>
+                        </Button>
+                        <OpenChatButton
+                          recipientId={student.studentId}
+                          recipientName={student.studentName}
+                          label="Iniciar conversación"
+                          icon={MessageCircle}
+                        />
+                      </div>
+
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        className="w-full text-muted-foreground"
+                        disabled={togglingStudentId === student.studentId}
+                        onClick={() => void handleTogglePractice(student)}
+                      >
+                        <GraduationCap className="size-3.5" />
+                        {status?.isEmpresaPractica ? 'Quitar Empresa de Práctica' : 'Marcar como Empresa de Práctica'}
                       </Button>
-                      <OpenChatButton
-                        recipientId={student.studentId}
-                        recipientName={student.studentName}
-                        label="Iniciar conversación"
-                        icon={MessageCircle}
-                      />
-                    </div>
-                  </Card>
-                ))}
+                    </Card>
+                  )
+                })}
               </div>
               <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />
             </>
           )}
         </>
       )}
+
+      <StudentCompaniesSheet
+        open={companiesSheetStudent !== null}
+        onOpenChange={(open) => {
+          if (!open) setCompaniesSheetStudent(null)
+        }}
+        studentName={companiesSheetStudent?.studentName ?? ''}
+        companies={companiesSheetStudent ? (companiesByStudent[companiesSheetStudent.studentId] ?? []) : []}
+      />
     </div>
   )
 }

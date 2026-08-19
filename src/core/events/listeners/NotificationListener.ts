@@ -221,6 +221,32 @@ export function registerNotificationListener(): Unsubscribe {
       })
     }),
 
+    eventBus.subscribe('COMPANY_REGISTERED', (payload) => {
+      notify({
+        userId: DEMO_PROFESOR_ID,
+        title: 'Nueva empresa candidata',
+        description: `${payload.studentName} registró "${payload.companyName}" como candidata en ${payload.subjectName}.`,
+        type: 'empresa_registrada',
+        priority: 'baja',
+        link: `/profesor/evaluaciones/${payload.subjectId}`,
+        createdBy: payload.studentName,
+        metadata: { companyId: payload.companyId, subjectId: payload.subjectId },
+      })
+    }),
+
+    eventBus.subscribe('COMPANY_CONFIRMED', (payload) => {
+      notify({
+        userId: DEMO_PROFESOR_ID,
+        title: 'Empresa confirmada',
+        description: `${payload.studentName} confirmó "${payload.companyName}" en ${payload.subjectName}.`,
+        type: 'empresa_confirmada',
+        priority: 'media',
+        link: `/profesor/evaluaciones/${payload.subjectId}`,
+        createdBy: payload.studentName,
+        metadata: { companyId: payload.companyId, subjectId: payload.subjectId },
+      })
+    }),
+
     eventBus.subscribe('ACTIVITY_CREATED', (payload) => {
       if (!DEMO_ALUMNO_SUBJECT_IDS.has(payload.subjectId)) return
       notify({

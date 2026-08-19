@@ -35,6 +35,7 @@ import { ProfessorEvaluationSubjectStudentsPage } from '@/features/evaluaciones-
 import { ProfessorEvaluateStudentPage } from '@/features/evaluaciones-profesor/pages/ProfessorEvaluateStudentPage'
 import { AdminEvaluationsListPage } from '@/features/evaluaciones-admin/pages/AdminEvaluationsListPage'
 import { StudentLeaderboardPage } from '@/features/leaderboard-alumno/pages/StudentLeaderboardPage'
+import { StudentCompaniesPage } from '@/features/empresas-alumno/pages/StudentCompaniesPage'
 import { ProfessorLeaderboardPage } from '@/features/leaderboard-profesor/pages/ProfessorLeaderboardPage'
 import { AdminLeaderboardPage } from '@/features/leaderboard-admin/pages/AdminLeaderboardPage'
 import { ManagePointsPage } from '@/features/puntos-profesor/pages/ManagePointsPage'
@@ -138,6 +139,7 @@ const router = createBrowserRouter([
           { path: '/alumno/reportes', element: <StudentReportsListPage /> },
           { path: '/alumno/reportes/nuevo', element: <StudentReportCreatePage /> },
           { path: '/alumno/reportes/:reportId', element: <StudentReportDetailPage /> },
+          { path: '/alumno/empresas', element: <StudentCompaniesPage /> },
           { path: '/alumno/leaderboard', element: <StudentLeaderboardPage /> },
           { path: '/alumno/cursos', element: <StudentCoursesPage /> },
           { path: '/alumno/certificaciones', element: <StudentCertificatesPage /> },

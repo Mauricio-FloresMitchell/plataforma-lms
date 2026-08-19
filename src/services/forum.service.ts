@@ -24,8 +24,10 @@ import {
   togglePin,
   toggleReaction,
 } from '@/mocks/forum'
+import { getStudentEvaluations } from '@/mocks/evaluations'
 import { emitAppEvent } from '@/core/events/EventBus'
 import { recordAudit } from '@/services/audit.service'
+import type { User } from '@/types/auth'
 import type {
   CreateForumPostInput,
   CreateForumReportInput,
@@ -61,6 +63,17 @@ function delay(ms: number): Promise<void> {
 function toSummary(post: ForumPost): ForumPostSummary {
   const { content: _content, comments: _comments, ...summary } = post
   return summary
+}
+
+/**
+ * Construye el `ForumAuthor` del usuario en sesión, sumando su carrera
+ * (solo Alumno) desde `mocks/evaluations` — permite identificar a quién de
+ * otra disciplina consultar en el Foro (PRD M2, paso 5). Único punto de la
+ * UI que arma este objeto: los componentes ya no lo construyen a mano.
+ */
+export function buildForumAuthor(user: User): ForumAuthor {
+  const career = user.role === 'alumno' ? getStudentEvaluations(user.id)[0]?.career : undefined
+  return { id: user.id, name: user.name, role: user.role, initials: user.avatarInitials, career }
 }
 
 export async function getForumCategories(): Promise<ForumCategory[]> {

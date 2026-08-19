@@ -14,6 +14,7 @@ import { ROLE_HOME } from '@/routes/navigation'
 import {
   addForumComment,
   addForumReply,
+  buildForumAuthor,
   deleteForumComment,
   deleteForumPost,
   reportForumContent,
@@ -40,9 +41,7 @@ export function ForumPostDetailPage() {
   const [showReportPost, setShowReportPost] = useState(false)
   const [reportConfirmation, setReportConfirmation] = useState<string | null>(null)
 
-  const currentAuthor: ForumAuthor | null = user
-    ? { id: user.id, name: user.name, role: user.role, initials: user.avatarInitials }
-    : null
+  const currentAuthor: ForumAuthor | null = user ? buildForumAuthor(user) : null
 
   const canModerate = user?.role === 'administrador'
   const canPinOrClose = user?.role === 'profesor' || user?.role === 'administrador'

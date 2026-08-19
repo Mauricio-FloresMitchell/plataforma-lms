@@ -30,6 +30,8 @@ export interface ForumAuthor {
   name: string
   role: Role
   initials: string
+  /** Carrera del autor (solo Alumno) — permite identificar a quién de otra disciplina consultar (PRD M2, paso 5). */
+  career?: string
 }
 
 /** Reacción fija disponible en comentarios y respuestas (Sprint 13.1). */

@@ -53,6 +53,7 @@ export const ROLE_NAV: Record<Role, NavSection[]> = {
         { label: 'Producto de Titulación', to: '/alumno/titulacion', icon: Award },
         { label: 'Evaluaciones', to: '/alumno/evaluaciones', icon: Award },
         { label: 'Reportes', to: '/alumno/reportes', icon: FileText },
+        { label: 'Empresas', to: '/alumno/empresas', icon: Building2 },
         { label: 'Leaderboard', to: '/alumno/leaderboard', icon: Trophy },
         { label: 'Foro', to: '/foro', icon: MessagesSquare },
         { label: 'Comunicación', to: '/comunicacion', icon: MessageCircle },

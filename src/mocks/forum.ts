@@ -60,8 +60,8 @@ export const FORUM_CATEGORIES: ForumCategory[] = [
 ]
 
 const AUTHORS: Record<string, ForumAuthor> = {
-  andrea: { id: 'usr-alumno-001', name: 'Andrea Guadalupe Mendez Guzman', role: 'alumno', initials: 'AM' },
-  axel: { id: 'std-002', name: 'Axel Martínez Betanzos', role: 'alumno', initials: 'AB' },
+  andrea: { id: 'usr-alumno-001', name: 'Andrea Guadalupe Mendez Guzman', role: 'alumno', initials: 'AM', career: 'Administración' },
+  axel: { id: 'std-002', name: 'Axel Martínez Betanzos', role: 'alumno', initials: 'AB', career: 'Administración' },
   yesus: { id: 'usr-profesor-001', name: 'Lic. Yesus Eleazar González', role: 'profesor', initials: 'YG' },
   ana: { id: 'usr-admin-001', name: 'Ana Torres Vega', role: 'administrador', initials: 'AT' },
 }
