@@ -23,7 +23,7 @@ const DEMO_PROFESOR_ID = 'usr-profesor-001'
 const DEMO_ADMIN_ID = 'usr-admin-001'
 
 /** Materias en las que está inscrita la cuenta demo de Alumno (`mocks/subjects.ts`, `STUDENT_SUBJECTS`). */
-const DEMO_ALUMNO_SUBJECT_IDS = new Set(['sub-001', 'sub-002', 'sub-003', 'sub-004', 'sub-005'])
+const DEMO_ALUMNO_SUBJECT_IDS = new Set(['sub-001'])
 
 /**
  * Resuelve destinatarios de un aviso institucional (Sprint 13, Parte 9:

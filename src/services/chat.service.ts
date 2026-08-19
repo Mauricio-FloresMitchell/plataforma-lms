@@ -78,7 +78,7 @@ export interface CurrentChatUser {
   role: Role
 }
 
-const DEMO_PROFESOR: ChatContact = { id: 'usr-profesor-001', name: 'Carlos Méndez Ruiz', role: 'profesor' }
+const DEMO_PROFESOR: ChatContact = { id: 'usr-profesor-001', name: 'Lic. Yesus Eleazar González', role: 'profesor' }
 const DEMO_ADMIN: ChatContact = { id: 'usr-admin-001', name: 'Ana Torres Vega', role: 'administrador' }
 
 // ---------------------------------------------------------------------------

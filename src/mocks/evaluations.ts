@@ -38,24 +38,6 @@ const COMPETENCIES_BY_SUBJECT: Record<string, Competency[]> = {
     competency('comp-002', 'Análisis de Datos', 'Habilidad para interpretar información cuantitativa', 87),
     competency('comp-003', 'Comunicación Ejecutiva', 'Capacidad de presentar ideas de manera clara y concisa', 98),
   ],
-  'sub-002': [
-    competency('comp-004', 'Marketing Digital', 'Competencia en estrategias digitales', 82),
-    competency('comp-005', 'Análisis de Mercado', 'Capacidad de estudiar comportamiento del consumidor', 86),
-  ],
-  'sub-003': [
-    competency('comp-006', 'Gestión Financiera', 'Competencia en administración de recursos económicos', 91),
-    competency('comp-007', 'Análisis de Inversiones', 'Habilidad para evaluar viabilidad de proyectos', 98),
-  ],
-  'sub-006': [
-    competency('comp-009', 'Reclutamiento y Selección', 'Capacidad de identificar y atraer talento idóneo', 85),
-    competency('comp-010', 'Desarrollo del Talento', 'Habilidad para diseñar planes de capacitación', 88),
-    competency('comp-011', 'Evaluación del Desempeño', 'Capacidad de medir y retroalimentar el desempeño del personal', 90),
-  ],
-  'sub-007': [
-    competency('comp-012', 'Análisis de Sistemas', 'Capacidad de modelar procesos y requerimientos de negocio', 89),
-    competency('comp-013', 'Gestión de Bases de Datos', 'Habilidad para diseñar y administrar bases de datos', 84),
-    competency('comp-014', 'Seguridad de la Información', 'Competencia en protección de datos e infraestructura', 93),
-  ],
 }
 
 /** Empresas de práctica asignadas a los alumnos (mock, ciclo determinístico por índice). */
@@ -91,8 +73,15 @@ const GAMIFICATION_CAREERS = [
   'Psicología',
 ]
 
+/** Roster real de un alumno para generar su evaluación (nombre + ids de alumno/evaluación). */
+interface RosterEntry {
+  evalId: string
+  studentId: string
+  studentName: string
+}
+
 /**
- * Genera el roster completo de alumnos de una materia para el Profesor.
+ * Genera evaluaciones para un lote de alumnos reales del roster de la materia.
  * Determinístico (sin `Math.random`) para que no cambie entre renders/navegaciones
  * dentro de la misma sesión; se reinicia junto con el resto del mock al recargar.
  */
@@ -100,16 +89,12 @@ function buildProfessorRoster(
   subjectId: string,
   subjectName: string,
   groupName: string,
-  count: number,
-  idOffset: number,
-  /** Número de "Estudiante N" con el que continúa (para no repetir nombres tras alumnos curados). */
-  nameStart = 1,
+  roster: RosterEntry[],
 ): StudentEvaluation[] {
   const baseCompetencies = COMPETENCIES_BY_SUBJECT[subjectId] ?? []
 
-  return Array.from({ length: count }, (_, i) => {
+  return roster.map((entry, i) => {
     const n = i + 1
-    const displayNumber = nameStart + i
     const status: FeedbackStatus = n % 9 === 0 ? 'publicada' : n % 5 === 0 ? 'borrador' : 'pendiente'
     const isEvaluated = status !== 'pendiente'
     const competencies = baseCompetencies.map((c) =>
@@ -117,9 +102,9 @@ function buildProfessorRoster(
     )
 
     return {
-      id: `eval-${idOffset + n}`,
-      studentId: `std-${idOffset + n}`,
-      studentName: `Estudiante ${displayNumber}`,
+      id: entry.evalId,
+      studentId: entry.studentId,
+      studentName: entry.studentName,
       subjectId,
       subjectName,
       groupName,
@@ -226,175 +211,112 @@ const ALL_BADGES: Badge[] = [
   },
 ]
 
-// Evaluaciones de estudiantes
-let STUDENT_EVALUATIONS: StudentEvaluation[] = [
-  {
-    id: 'eval-001',
-    studentId: 'usr-alumno-001',
-    studentName: 'María García López',
-    subjectId: 'sub-001',
-    subjectName: 'Administración Estratégica',
-    groupName: 'ADM-501',
-    evaluatedAt: '2026-07-20T14:30:00.000Z',
-    competencies: COMPETENCIES_BY_SUBJECT['sub-001'],
-    feedback: 'Excelente desempeño en análisis de casos. Requiere mejorar en presentaciones públicas.',
-    status: 'publicada',
-    badgeIds: ['badge-001', 'badge-002'],
-    company: 'Grupo Bimbo',
-    weeklyReportStatus: 'aprobado',
-    career: 'Administración',
-    term: 6,
-    titulacionProgress: 72,
-    ...buildRubricSeed(
-      [
-        { criterionId: 'rubrica-a-dominio', level: 'excelente' },
-        { criterionId: 'rubrica-a-aplicacion', level: 'bueno' },
-        { criterionId: 'rubrica-a-comunicacion', level: 'bueno' },
-      ],
-      [
-        { criterionId: 'rubrica-b-puntualidad', level: 'excelente' },
-        { criterionId: 'rubrica-b-participacion', level: 'excelente' },
-      ],
-      2,
-    ),
-    observations: 'Alumna con alto potencial. Se sugiere invitarla al taller de oratoria del próximo cuatrimestre.',
-    attempts: 1,
-    evaluatedByName: 'Ing. Carlos Mendoza',
-  },
-  {
-    id: 'eval-002',
-    studentId: 'usr-alumno-050',
-    studentName: 'Jorge Ramírez Peña',
-    subjectId: 'sub-004',
-    subjectName: 'Comportamiento Organizacional',
-    groupName: 'ADM-402',
-    evaluatedAt: '2026-07-18T10:15:00.000Z',
-    competencies: [competency('comp-008', 'Inteligencia Emocional', 'Capacidad de entender y gestionar emociones', 88)],
-    feedback: 'Buen desarrollo en dinámicas de grupo.',
-    status: 'publicada',
-    badgeIds: ['badge-002'],
-  },
-  {
-    id: 'eval-003',
-    studentId: 'usr-alumno-051',
-    studentName: 'Lucía Fernández Mora',
-    subjectId: 'sub-003',
-    subjectName: 'Finanzas Corporativas',
-    groupName: 'ADM-303',
-    evaluatedAt: '',
-    competencies: COMPETENCIES_BY_SUBJECT['sub-003'],
-    status: 'pendiente',
-  },
-]
-
-// Evaluaciones para el profesor.
-// Cada materia genera un roster completo (`buildProfessorRoster`) del tamaño
-// declarado en `PROFESSOR_SUBJECTS` (mocks/subjects.ts, studentsCount) para que
-// el listado "Evaluaciones > materia > alumnos" muestre a todo el grupo, no
-// solo a los alumnos evaluados. Ambos mocks se mantienen manualmente
-// sincronizados por materia (sin import cruzado, siguiendo el patrón existente
-// de datos duplicados por feature).
-const PROFESSOR_EVALUATIONS_BY_SUBJECT: Record<string, StudentEvaluation[]> = {
-  'sub-001': [
-    {
-      id: 'eval-101',
-      studentId: 'std-001',
-      studentName: 'Estudiante 1',
-      subjectId: 'sub-001',
-      subjectName: 'Administración Estratégica',
-      groupName: 'ADM-501',
-      evaluatedAt: '2026-07-20T14:30:00.000Z',
-      competencies: COMPETENCIES_BY_SUBJECT['sub-001'],
-      feedback: 'Excelente desempeño',
-      status: 'publicada',
-      badgeIds: ['badge-001'],
-      company: 'Grupo Bimbo',
-      weeklyReportStatus: 'aprobado',
-      career: 'Administración',
-      term: 5,
-      titulacionProgress: 60,
-    },
-    {
-      id: 'eval-102',
-      studentId: 'std-002',
-      studentName: 'Estudiante 2',
-      subjectId: 'sub-001',
-      subjectName: 'Administración Estratégica',
-      groupName: 'ADM-501',
-      evaluatedAt: '2026-07-21T09:00:00.000Z',
-      competencies: COMPETENCIES_BY_SUBJECT['sub-001'].map((c) => ({ ...c, percentage: 78, currentLevel: percentageToLevel(78) })),
-      feedback: 'Buen avance, falta profundizar en el análisis financiero.',
-      status: 'borrador',
-      company: 'CEMEX',
-      weeklyReportStatus: 'pendiente',
-      career: 'Negocios Internacionales',
-      term: 3,
-      titulacionProgress: 35,
-    },
-    {
-      id: 'eval-103',
-      studentId: 'std-003',
-      studentName: 'Estudiante 3',
-      subjectId: 'sub-001',
-      subjectName: 'Administración Estratégica',
-      groupName: 'ADM-501',
-      evaluatedAt: '',
-      competencies: COMPETENCIES_BY_SUBJECT['sub-001'],
-      status: 'pendiente',
-      company: 'FEMSA',
-      weeklyReportStatus: 'correcciones',
-      career: 'Administración',
-      term: 1,
-      titulacionProgress: 10,
-    },
-    // idOffset 103: continúa después de eval-101/102/103 (los 3 alumnos curados arriba).
-    // nameStart 4: continúa la numeración "Estudiante N" después de Estudiante 1/2/3.
-    ...buildProfessorRoster('sub-001', 'Administración Estratégica', 'ADM-501', 25, 103, 4),
-  ],
-  // Cada materia usa un bloque de ids distinto (200s, 300s) para que `eval-*`/`std-*`
-  // nunca se repita entre materias: `recordEvaluation` busca por id en las tres
-  // materias del profesor y actualizaría por error a alumnos de otra materia si colisionaran.
-  'sub-006': buildProfessorRoster('sub-006', 'Gestión del Talento', 'RH-301', 25, 200),
-  'sub-007': buildProfessorRoster('sub-007', 'Sistemas de Información', 'SIS-401-A', 30, 300),
+// Evaluación curada de Andrea (usr-alumno-001, la única cuenta real de
+// Alumno): se comparte la MISMA referencia entre `STUDENT_EVALUATIONS` y
+// `PROFESSOR_EVALUATIONS_BY_SUBJECT` para que ambas vistas queden siempre
+// sincronizadas, sin depender de que coincidan los ids al guardar.
+const andreaEvaluation: StudentEvaluation = {
+  id: 'eval-001',
+  studentId: 'usr-alumno-001',
+  studentName: 'Andrea Guadalupe Mendez Guzman',
+  subjectId: 'sub-001',
+  subjectName: 'Clase Modelo 1 y Modelo 2',
+  groupName: 'CMM-101',
+  evaluatedAt: '2026-07-20T14:30:00.000Z',
+  competencies: COMPETENCIES_BY_SUBJECT['sub-001'],
+  feedback: 'Excelente desempeño en análisis de casos. Requiere mejorar en presentaciones públicas.',
+  status: 'publicada',
+  badgeIds: ['badge-001', 'badge-002'],
+  company: 'Grupo Bimbo',
+  weeklyReportStatus: 'aprobado',
+  career: 'Administración',
+  term: 1,
+  titulacionProgress: 72,
+  ...buildRubricSeed(
+    [
+      { criterionId: 'rubrica-a-dominio', level: 'excelente' },
+      { criterionId: 'rubrica-a-aplicacion', level: 'bueno' },
+      { criterionId: 'rubrica-a-comunicacion', level: 'bueno' },
+    ],
+    [
+      { criterionId: 'rubrica-b-puntualidad', level: 'excelente' },
+      { criterionId: 'rubrica-b-participacion', level: 'excelente' },
+    ],
+    2,
+  ),
+  observations: 'Alumna con alto potencial. Se sugiere invitarla al taller de oratoria del próximo cuatrimestre.',
+  attempts: 1,
+  evaluatedByName: 'Lic. Yesus Eleazar González',
 }
 
-// Evaluaciones globales del administrador
-const ADMIN_EVALUATIONS: StudentEvaluation[] = [
-  {
-    id: 'eval-1001',
-    studentId: 'usr-alumno-001',
-    studentName: 'María García López',
-    subjectId: 'sub-001',
-    subjectName: 'Administración Estratégica',
-    groupName: 'ADM-501',
-    evaluatedAt: '2026-07-20T14:30:00.000Z',
-    competencies: COMPETENCIES_BY_SUBJECT['sub-001'],
-    status: 'publicada',
-    badgeIds: ['badge-001', 'badge-002'],
-  },
-  {
-    id: 'eval-1002',
-    studentId: 'usr-alumno-002',
-    studentName: 'Estudiante 2',
-    subjectId: 'sub-002',
-    subjectName: 'Mercadotecnia Digital',
-    groupName: 'MKT-401',
-    evaluatedAt: '2026-07-19T09:00:00.000Z',
-    competencies: COMPETENCIES_BY_SUBJECT['sub-002'],
-    status: 'publicada',
-  },
-  {
-    id: 'eval-1003',
-    studentId: 'usr-alumno-003',
-    studentName: 'Estudiante 3',
-    subjectId: 'sub-003',
-    subjectName: 'Finanzas Corporativas',
-    groupName: 'FIN-502',
-    evaluatedAt: '',
-    competencies: COMPETENCIES_BY_SUBJECT['sub-003'],
-    status: 'pendiente',
-  },
+// Evaluaciones de estudiantes (vista Alumno): solo hay una cuenta real de alumno.
+let STUDENT_EVALUATIONS: StudentEvaluation[] = [andreaEvaluation]
+
+const axelEvaluation: StudentEvaluation = {
+  id: 'eval-002',
+  studentId: 'std-002',
+  studentName: 'Axel Martínez Betanzos',
+  subjectId: 'sub-001',
+  subjectName: 'Clase Modelo 1 y Modelo 2',
+  groupName: 'CMM-101',
+  evaluatedAt: '2026-07-21T09:00:00.000Z',
+  competencies: COMPETENCIES_BY_SUBJECT['sub-001'].map((c) => ({ ...c, percentage: 78, currentLevel: percentageToLevel(78) })),
+  feedback: 'Buen avance, falta profundizar en el análisis.',
+  status: 'borrador',
+  company: 'CEMEX',
+  weeklyReportStatus: 'pendiente',
+  career: 'Administración',
+  term: 1,
+  titulacionProgress: 35,
+}
+
+const edithEvaluation: StudentEvaluation = {
+  id: 'eval-003',
+  studentId: 'std-003',
+  studentName: 'Edith Hortencia Ramírez Hernández',
+  subjectId: 'sub-001',
+  subjectName: 'Clase Modelo 1 y Modelo 2',
+  groupName: 'CMM-101',
+  evaluatedAt: '',
+  competencies: COMPETENCIES_BY_SUBJECT['sub-001'],
+  status: 'pendiente',
+  company: 'FEMSA',
+  weeklyReportStatus: 'correcciones',
+  career: 'Administración',
+  term: 1,
+  titulacionProgress: 10,
+}
+
+/** Resto del roster (12 alumnos), generado a partir de `buildProfessorRoster`. */
+const REMAINING_ROSTER: RosterEntry[] = [
+  { evalId: 'eval-004', studentId: 'std-004', studentName: 'Fernando Dominguez Chavez' },
+  { evalId: 'eval-005', studentId: 'std-005', studentName: 'Israel David León Guadarrama' },
+  { evalId: 'eval-006', studentId: 'std-006', studentName: 'Jessica Flores' },
+  { evalId: 'eval-007', studentId: 'std-007', studentName: 'José Ángel García López' },
+  { evalId: 'eval-008', studentId: 'std-008', studentName: 'Jose Eduardo Avalos Méndez' },
+  { evalId: 'eval-009', studentId: 'std-009', studentName: 'Liliana León Guadarrama' },
+  { evalId: 'eval-010', studentId: 'std-010', studentName: 'Magda Contreras' },
+  { evalId: 'eval-011', studentId: 'std-011', studentName: 'Mario Alberto Gaona Madera' },
+  { evalId: 'eval-012', studentId: 'std-012', studentName: 'Melissa Estela Velasco Alarcón' },
+  { evalId: 'eval-013', studentId: 'std-013', studentName: 'Patricia Delgado Garcia' },
+  { evalId: 'eval-014', studentId: 'std-014', studentName: 'Pedro Pastor Alarcon' },
+  { evalId: 'eval-015', studentId: 'std-015', studentName: 'Wendy Guadalupe Vázquez Guzmán' },
 ]
+
+// Evaluaciones para el profesor: los 15 alumnos del único grupo (CMM-101).
+const PROFESSOR_EVALUATIONS_BY_SUBJECT: Record<string, StudentEvaluation[]> = {
+  'sub-001': [
+    andreaEvaluation,
+    axelEvaluation,
+    edithEvaluation,
+    ...buildProfessorRoster('sub-001', 'Clase Modelo 1 y Modelo 2', 'CMM-101', REMAINING_ROSTER),
+  ],
+}
+
+// Evaluaciones globales del administrador: mismas 15 evaluaciones (mismas
+// referencias) que `PROFESSOR_EVALUATIONS_BY_SUBJECT['sub-001']`, para que
+// las tres vistas (Alumno/Profesor/Administrador) queden siempre sincronizadas.
+const ADMIN_EVALUATIONS: StudentEvaluation[] = [...PROFESSOR_EVALUATIONS_BY_SUBJECT['sub-001']]
 
 /**
  * Obtiene las evaluaciones de un alumno.
@@ -629,6 +551,10 @@ export function getGamificationSubjectIds(): string[] {
  */
 export function getSubjectRosterForGamification(subjectId: string): StudentEvaluation[] {
   const professorRoster = PROFESSOR_EVALUATIONS_BY_SUBJECT[subjectId] ?? []
-  const studentEntries = STUDENT_EVALUATIONS.filter((e) => e.subjectId === subjectId)
+  const rosterIds = new Set(professorRoster.map((e) => e.id))
+  // El alumno con cuenta real (Andrea) ya vive dentro de `professorRoster` (misma
+  // referencia que `STUDENT_EVALUATIONS`): filtrar por id evita duplicarla en el
+  // Leaderboard cuando ambas colecciones comparten la misma evaluación.
+  const studentEntries = STUDENT_EVALUATIONS.filter((e) => e.subjectId === subjectId && !rosterIds.has(e.id))
   return [...studentEntries, ...professorRoster]
 }

@@ -19,42 +19,40 @@ import type {
  * Estado en memoria durante la sesión.
  */
 
+/**
+ * Roster canónico de los 15 alumnos del único grupo de la demo (CMM-101),
+ * en orden alfabético. Mismo id/nombre que `mocks/evaluations.ts`,
+ * `mocks/gamification.ts` y `mocks/userManagement.ts` — sin import cruzado,
+ * siguiendo el patrón existente de "datos duplicados por feature".
+ */
+const SUBJECT_ROSTER = [
+  { id: 'usr-alumno-001', name: 'Andrea Guadalupe Mendez Guzman' },
+  { id: 'std-002', name: 'Axel Martínez Betanzos' },
+  { id: 'std-003', name: 'Edith Hortencia Ramírez Hernández' },
+  { id: 'std-004', name: 'Fernando Dominguez Chavez' },
+  { id: 'std-005', name: 'Israel David León Guadarrama' },
+  { id: 'std-006', name: 'Jessica Flores' },
+  { id: 'std-007', name: 'José Ángel García López' },
+  { id: 'std-008', name: 'Jose Eduardo Avalos Méndez' },
+  { id: 'std-009', name: 'Liliana León Guadarrama' },
+  { id: 'std-010', name: 'Magda Contreras' },
+  { id: 'std-011', name: 'Mario Alberto Gaona Madera' },
+  { id: 'std-012', name: 'Melissa Estela Velasco Alarcón' },
+  { id: 'std-013', name: 'Patricia Delgado Garcia' },
+  { id: 'std-014', name: 'Pedro Pastor Alarcon' },
+  { id: 'std-015', name: 'Wendy Guadalupe Vázquez Guzmán' },
+] as const
+
+const COMPETENCY_CYCLE = ['A+', 'A', 'B+', 'B', 'C', 'D'] as const
+
 // Materias disponibles para el alumno
 const STUDENT_SUBJECTS: StudentSubjectListItem[] = [
   {
     id: 'sub-001',
-    name: 'Administración Estratégica',
-    code: 'ADM-501',
-    teacher: 'Ing. Carlos Mendoza',
+    name: 'Clase Modelo 1 y Modelo 2',
+    code: 'CMM-101',
+    teacher: 'Lic. Yesus Eleazar González',
     progress: 75,
-  },
-  {
-    id: 'sub-002',
-    name: 'Mercadotecnia Digital',
-    code: 'MKT-401',
-    teacher: 'Lic. Sandra Ruiz',
-    progress: 65,
-  },
-  {
-    id: 'sub-003',
-    name: 'Finanzas Corporativas',
-    code: 'FIN-502',
-    teacher: 'Dr. Roberto Flores',
-    progress: 85,
-  },
-  {
-    id: 'sub-004',
-    name: 'Comportamiento Organizacional',
-    code: 'ORG-301',
-    teacher: 'Lic. María González',
-    progress: 70,
-  },
-  {
-    id: 'sub-005',
-    name: 'Innovación y Emprendimiento',
-    code: 'INN-401',
-    teacher: 'Ing. Arturo Sánchez',
-    progress: 55,
   },
 ]
 
@@ -62,24 +60,10 @@ const STUDENT_SUBJECTS: StudentSubjectListItem[] = [
 const PROFESSOR_SUBJECTS: ProfessorSubjectListItem[] = [
   {
     id: 'sub-001',
-    name: 'Administración Estratégica',
-    code: 'ADM-501',
-    groupName: 'ADM-501',
-    studentsCount: 28,
-  },
-  {
-    id: 'sub-006',
-    name: 'Gestión del Talento',
-    code: 'RH-301',
-    groupName: 'RH-301',
-    studentsCount: 25,
-  },
-  {
-    id: 'sub-007',
-    name: 'Sistemas de Información',
-    code: 'SIS-401',
-    groupName: 'SIS-401-A',
-    studentsCount: 30,
+    name: 'Clase Modelo 1 y Modelo 2',
+    code: 'CMM-101',
+    groupName: 'CMM-101',
+    studentsCount: 15,
   },
 ]
 
@@ -87,93 +71,15 @@ const PROFESSOR_SUBJECTS: ProfessorSubjectListItem[] = [
 let ADMIN_SUBJECTS: AdminSubjectListItem[] = [
   {
     id: 'sub-001',
-    name: 'Administración Estratégica',
-    code: 'ADM-501',
+    name: 'Clase Modelo 1 y Modelo 2',
+    code: 'CMM-101',
     credits: 4,
-    teachers: ['Ing. Carlos Mendoza'],
+    teachers: ['Lic. Yesus Eleazar González'],
     careerId: 'car-001',
     careerName: 'Administración',
-    term: 5,
-    professorId: 'prof-001',
-    professorName: 'Ing. Carlos Mendoza',
-    isActive: true,
-  },
-  {
-    id: 'sub-002',
-    name: 'Mercadotecnia Digital',
-    code: 'MKT-401',
-    credits: 3,
-    teachers: ['Lic. Sandra Ruiz'],
-    careerId: 'car-006',
-    careerName: 'Mercadotecnia',
-    term: 4,
-    professorId: 'prof-002',
-    professorName: 'Lic. Sandra Ruiz',
-    isActive: true,
-  },
-  {
-    id: 'sub-003',
-    name: 'Finanzas Corporativas',
-    code: 'FIN-502',
-    credits: 4,
-    teachers: ['Dr. Roberto Flores'],
-    careerId: 'car-004',
-    careerName: 'Contabilidad',
-    term: 5,
-    professorId: 'prof-003',
-    professorName: 'Dr. Roberto Flores',
-    isActive: true,
-  },
-  {
-    id: 'sub-004',
-    name: 'Comportamiento Organizacional',
-    code: 'ORG-301',
-    credits: 3,
-    teachers: ['Lic. María González'],
-    careerId: 'car-001',
-    careerName: 'Administración',
-    term: 3,
-    professorId: 'prof-004',
-    professorName: 'Lic. María González',
-    isActive: true,
-  },
-  {
-    id: 'sub-005',
-    name: 'Innovación y Emprendimiento',
-    code: 'INN-401',
-    credits: 3,
-    teachers: ['Ing. Arturo Sánchez'],
-    careerId: 'car-003',
-    careerName: 'Negocios Internacionales',
-    term: 4,
-    professorId: 'prof-005',
-    professorName: 'Ing. Arturo Sánchez',
-    isActive: true,
-  },
-  {
-    id: 'sub-006',
-    name: 'Gestión del Talento',
-    code: 'RH-301',
-    credits: 3,
-    teachers: ['Lic. Patricia López', 'Ing. Carlos Mendoza'],
-    careerId: 'car-001',
-    careerName: 'Administración',
-    term: 3,
-    professorId: 'prof-006',
-    professorName: 'Lic. Patricia López',
-    isActive: true,
-  },
-  {
-    id: 'sub-007',
-    name: 'Sistemas de Información',
-    code: 'SIS-401',
-    credits: 4,
-    teachers: ['Dr. Juan Pérez'],
-    careerId: 'car-002',
-    careerName: 'Ingeniería en Sistemas',
-    term: 4,
-    professorId: 'prof-007',
-    professorName: 'Dr. Juan Pérez',
+    term: 1,
+    professorId: 'usr-profesor-001',
+    professorName: 'Lic. Yesus Eleazar González',
     isActive: true,
   },
 ]
@@ -225,58 +131,6 @@ let ACTIVITIES_BY_SUBJECT: Record<string, Activity[]> = {
       weightPercentage: 30,
     },
   ],
-  'sub-002': [
-    {
-      id: 'act-201',
-      title: 'Crear estrategia de redes sociales',
-      description: 'Diseñar una estrategia de marketing en redes sociales para una PYME',
-      dueDate: '2026-08-12',
-      status: 'pendiente',
-    },
-    {
-      id: 'act-202',
-      title: 'Análisis de competencia digital',
-      description: 'Análisis de la presencia digital de 2 competidores directos',
-      dueDate: '2026-08-08',
-      status: 'completada',
-    },
-  ],
-  'sub-003': [
-    {
-      id: 'act-301',
-      title: 'Análisis financiero trimestral',
-      description: 'Realizar análisis financiero de estados de resultados y balance general',
-      dueDate: '2026-08-15',
-      status: 'completada',
-    },
-    {
-      id: 'act-302',
-      title: 'Proyecto de inversión',
-      description: 'Evaluar viabilidad financiera de un proyecto de inversión',
-      dueDate: '2026-08-22',
-      status: 'pendiente',
-    },
-  ],
-  'sub-004': [
-    {
-      id: 'act-401',
-      title: 'Encuesta de clima organizacional',
-      description: 'Diseñar y aplicar una encuesta de clima en una organización',
-      dueDate: '2026-08-09',
-      status: 'completada',
-    },
-  ],
-  'sub-005': [
-    {
-      id: 'act-501',
-      title: 'Pitch de idea de negocio',
-      description: 'Presentar idea de negocio innovadora con plan de viabilidad',
-      dueDate: '2026-08-20',
-      status: 'pendiente',
-    },
-  ],
-  'sub-006': [],
-  'sub-007': [],
 }
 
 // Materiales por materia
@@ -304,33 +158,6 @@ let MATERIALS_BY_SUBJECT: Record<string, Material[]> = {
       uploadedAt: '2026-07-20T10:15:00.000Z',
     },
   ],
-  'sub-002': [
-    {
-      id: 'mat-201',
-      title: 'Fundamentos del Marketing Digital',
-      type: 'pdf',
-      url: '/materials/marketing-digital.pdf',
-      uploadedAt: '2026-07-16T11:00:00.000Z',
-    },
-    {
-      id: 'mat-202',
-      title: 'Estrategias en Instagram y TikTok',
-      type: 'video',
-      url: 'https://example.com/video-social-media',
-      uploadedAt: '2026-07-19T15:45:00.000Z',
-    },
-  ],
-  'sub-003': [
-    {
-      id: 'mat-301',
-      title: 'Finanzas Corporativas - Capítulo 1',
-      type: 'pdf',
-      url: '/materials/finanzas-cap1.pdf',
-      uploadedAt: '2026-07-14T08:30:00.000Z',
-    },
-  ],
-  'sub-006': [],
-  'sub-007': [],
 }
 
 // Avisos por materia
@@ -339,36 +166,16 @@ let ANNOUNCEMENTS_BY_SUBJECT: Record<string, Announcement[]> = {
     {
       id: 'ann-101',
       content: 'Se adelanta la fecha del examen parcial al 15 de agosto.',
-      author: 'Ing. Carlos Mendoza',
+      author: 'Lic. Yesus Eleazar González',
       createdAt: '2026-07-23T10:00:00.000Z',
     },
     {
       id: 'ann-102',
       content: 'Envío de lecturas complementarias por correo electrónico.',
-      author: 'Ing. Carlos Mendoza',
+      author: 'Lic. Yesus Eleazar González',
       createdAt: '2026-07-20T14:20:00.000Z',
     },
   ],
-  'sub-002': [
-    {
-      id: 'ann-201',
-      content: 'Mañana visitaremos una agencia de marketing digital en la ciudad.',
-      author: 'Lic. Sandra Ruiz',
-      createdAt: '2026-07-24T09:30:00.000Z',
-    },
-  ],
-  'sub-003': [],
-  'sub-004': [
-    {
-      id: 'ann-401',
-      content: 'Cambio de aula para la próxima clase: pasamos al salón 302.',
-      author: 'Lic. María González',
-      createdAt: '2026-07-23T16:45:00.000Z',
-    },
-  ],
-  'sub-005': [],
-  'sub-006': [],
-  'sub-007': [],
 }
 
 /**
@@ -408,12 +215,12 @@ export function getSubjectDetail(subjectId: string, role: 'alumno' | 'profesor' 
 
     const profSubject = subject as ProfessorSubjectListItem
 
-    // Mock estudiantes de la materia
-    const mockStudents = Array.from({ length: profSubject.studentsCount }, (_, i) => ({
-      id: `std-${i + 1}`,
-      name: `Estudiante ${i + 1}`,
-      progress: Math.floor(Math.random() * 100),
-      competencyLevel: ['A+', 'A', 'B+', 'B', 'C', 'D'][Math.floor(Math.random() * 6)] as 'A+' | 'A' | 'B+' | 'B' | 'C' | 'D',
+    // Roster real de la materia (determinístico, sin Math.random).
+    const mockStudents = SUBJECT_ROSTER.map((student, i) => ({
+      id: student.id,
+      name: student.name,
+      progress: ((i + 1) * 7) % 101,
+      competencyLevel: COMPETENCY_CYCLE[i % COMPETENCY_CYCLE.length],
     }))
 
     return {
@@ -616,8 +423,8 @@ export function deleteMaterial(subjectId: string, materialId: string): boolean {
 // ── Entregas de actividades del alumno (Sprint 16, Parte 1) ─────────
 //
 // Compuesta por actividad + alumno (`${activityId}:${studentId}`). El MVP
-// solo tiene una cuenta real de alumno (`usr-alumno-001`, María García
-// López), pero se guarda por `studentId` para no acoplar el store a esa
+// solo tiene una cuenta real de alumno (`usr-alumno-001`, Andrea Guadalupe
+// Mendez Guzman), pero se guarda por `studentId` para no acoplar el store a esa
 // cuenta específica.
 
 const SUBMISSIONS: Record<string, ActivitySubmission> = {
@@ -638,7 +445,7 @@ const SUBMISSIONS: Record<string, ActivitySubmission> = {
     observations: 'Cuida el orden de las diapositivas: el cruce FO/DA debe ir antes que las conclusiones.',
     badges: [{ id: 'badge-foda-92', name: 'Análisis Sobresaliente', description: 'Entrega con calificación superior a 90%.', icon: '🏆', earnedAt: '2026-08-04T09:00:00.000Z', awardType: 'manual' }],
     evaluatedAt: '2026-08-04T09:00:00.000Z',
-    evaluatedByName: 'Ing. Carlos Mendoza',
+    evaluatedByName: 'Lic. Yesus Eleazar González',
   },
 }
 
