@@ -20,10 +20,13 @@ import type {
  */
 
 /**
- * Roster canónico de los 15 alumnos del único grupo de la demo (CMM-101),
- * en orden alfabético. Mismo id/nombre que `mocks/evaluations.ts`,
- * `mocks/gamification.ts` y `mocks/userManagement.ts` — sin import cruzado,
- * siguiendo el patrón existente de "datos duplicados por feature".
+ * Roster canónico de los 16 alumnos del único grupo de la demo (CMM-101).
+ * Los primeros 15 están en orden alfabético; los alumnos que se dan de alta
+ * después (como `std-016`) se agregan al final para no reordenar ids ya
+ * referenciados en el resto de los mocks. Mismo id/nombre que
+ * `mocks/evaluations.ts`, `mocks/gamification.ts` y `mocks/userManagement.ts`
+ * — sin import cruzado, siguiendo el patrón existente de "datos duplicados
+ * por feature".
  */
 const SUBJECT_ROSTER = [
   { id: 'usr-alumno-001', name: 'Andrea Guadalupe Mendez Guzman' },
@@ -41,6 +44,7 @@ const SUBJECT_ROSTER = [
   { id: 'std-013', name: 'Patricia Delgado Garcia' },
   { id: 'std-014', name: 'Pedro Pastor Alarcon' },
   { id: 'std-015', name: 'Wendy Guadalupe Vázquez Guzmán' },
+  { id: 'std-016', name: 'Claudia Alonso Núñez' },
 ] as const
 
 const COMPETENCY_CYCLE = ['A+', 'A', 'B+', 'B', 'C', 'D'] as const
@@ -63,7 +67,7 @@ const PROFESSOR_SUBJECTS: ProfessorSubjectListItem[] = [
     name: 'Clase Modelo 1 y Modelo 2',
     code: 'CMM-101',
     groupName: 'CMM-101',
-    studentsCount: 15,
+    studentsCount: 16,
   },
 ]
 

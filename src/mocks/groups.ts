@@ -15,7 +15,7 @@ let GROUPS: Group[] = [
     subjectName: 'Clase Modelo 1 y Modelo 2',
     professorName: 'Lic. Yesus Eleazar González',
     capacity: 20,
-    enrolledCount: 15,
+    enrolledCount: 16,
     isActive: true,
     createdAt: '2026-01-15T09:00:00.000Z',
   },

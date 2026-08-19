@@ -301,9 +301,10 @@ const REMAINING_ROSTER: RosterEntry[] = [
   { evalId: 'eval-013', studentId: 'std-013', studentName: 'Patricia Delgado Garcia' },
   { evalId: 'eval-014', studentId: 'std-014', studentName: 'Pedro Pastor Alarcon' },
   { evalId: 'eval-015', studentId: 'std-015', studentName: 'Wendy Guadalupe Vázquez Guzmán' },
+  { evalId: 'eval-016', studentId: 'std-016', studentName: 'Claudia Alonso Núñez' },
 ]
 
-// Evaluaciones para el profesor: los 15 alumnos del único grupo (CMM-101).
+// Evaluaciones para el profesor: los 16 alumnos del único grupo (CMM-101).
 const PROFESSOR_EVALUATIONS_BY_SUBJECT: Record<string, StudentEvaluation[]> = {
   'sub-001': [
     andreaEvaluation,
@@ -313,7 +314,7 @@ const PROFESSOR_EVALUATIONS_BY_SUBJECT: Record<string, StudentEvaluation[]> = {
   ],
 }
 
-// Evaluaciones globales del administrador: mismas 15 evaluaciones (mismas
+// Evaluaciones globales del administrador: mismas evaluaciones (mismas
 // referencias) que `PROFESSOR_EVALUATIONS_BY_SUBJECT['sub-001']`, para que
 // las tres vistas (Alumno/Profesor/Administrador) queden siempre sincronizadas.
 const ADMIN_EVALUATIONS: StudentEvaluation[] = [...PROFESSOR_EVALUATIONS_BY_SUBJECT['sub-001']]

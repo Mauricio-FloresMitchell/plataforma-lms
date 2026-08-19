@@ -195,6 +195,7 @@ export function insertReport(
   studentId: string,
   studentName: string,
   input: CreateReportInput,
+  company?: { id: string; name: string },
 ): WeeklyReport {
   const subject = getSubjectsForStudent(studentId).find((item) => item.id === input.subjectId)
   const template = getReportTemplate(input.templateId)
@@ -219,6 +220,8 @@ export function insertReport(
     titulacionIntegration: input.titulacionIntegration,
     anonymizationConfirmed: input.anonymizationConfirmed,
     links: input.links,
+    companyId: company?.id,
+    companyName: company?.name,
   }
   REPORTS = [report, ...REPORTS]
   return clone(report)

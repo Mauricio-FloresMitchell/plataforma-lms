@@ -78,6 +78,8 @@ export type AppEventName =
   | 'TITULACION_PHASE_REVIEWED'
   | 'COURSE_COMPLETED'
   | 'VOTE_CAST'
+  | 'COMPANY_REGISTERED'
+  | 'COMPANY_CONFIRMED'
 
 interface BaseEventPayload {
   /** Fecha ISO 8601 del evento. La rellena `EventBus`, no quien emite. */
@@ -356,6 +358,16 @@ export interface VoteCastPayload extends BaseEventPayload {
   reason?: string
 }
 
+/** Registro o confirmación de una empresa candidata (Manual de Mejoras Transversales, Mejora 2). */
+export interface CompanyProspectPayload extends BaseEventPayload {
+  companyId: string
+  subjectId: string
+  subjectName: string
+  studentId: string
+  studentName: string
+  companyName: string
+}
+
 /** Mapa evento → forma del payload. `EventBus` se tipa a partir de esta interfaz. */
 export interface AppEventMap {
   REPORT_SUBMITTED: ReportSubmittedPayload
@@ -406,4 +418,6 @@ export interface AppEventMap {
   TITULACION_PHASE_REVIEWED: TitulacionPhaseReviewedPayload
   COURSE_COMPLETED: CourseCompletedPayload
   VOTE_CAST: VoteCastPayload
+  COMPANY_REGISTERED: CompanyProspectPayload
+  COMPANY_CONFIRMED: CompanyProspectPayload
 }

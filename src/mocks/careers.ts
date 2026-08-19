@@ -8,7 +8,7 @@ import type { Career, CareerInput } from '@/types/career'
  */
 
 let CAREERS: Career[] = [
-  { id: 'car-001', name: 'Administración', code: 'ADM', isActive: true, studentsCount: 15, subjectsCount: 1, professorsCount: 1, createdAt: '2024-08-01T09:00:00.000Z' },
+  { id: 'car-001', name: 'Administración', code: 'ADM', isActive: true, studentsCount: 16, subjectsCount: 1, professorsCount: 1, createdAt: '2024-08-01T09:00:00.000Z' },
   { id: 'car-002', name: 'Ingeniería en Sistemas', code: 'SIS', isActive: true, studentsCount: 0, subjectsCount: 0, professorsCount: 0, createdAt: '2024-08-01T09:00:00.000Z' },
   { id: 'car-003', name: 'Negocios Internacionales', code: 'NEG', isActive: true, studentsCount: 0, subjectsCount: 0, professorsCount: 0, createdAt: '2024-08-01T09:00:00.000Z' },
   { id: 'car-004', name: 'Contabilidad', code: 'CON', isActive: true, studentsCount: 0, subjectsCount: 0, professorsCount: 0, createdAt: '2024-08-01T09:00:00.000Z' },

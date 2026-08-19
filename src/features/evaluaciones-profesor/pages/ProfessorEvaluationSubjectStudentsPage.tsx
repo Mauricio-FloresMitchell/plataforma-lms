@@ -4,9 +4,11 @@ import { Award, Building2, GraduationCap, MessageCircle, Users } from 'lucide-re
 import { getProfessorSubjectsAsync } from '@/services/subject.service'
 import { getProfessorStudentEvaluationsAsync } from '@/services/evaluation.service'
 import { getCompanyStatusMapAsync, setEmpresaPracticaAsync, type CompanyStatusEntry } from '@/services/company-status.service'
+import { listCompaniesForRosterAsync } from '@/services/company-prospect.service'
 import { useAuth } from '@/features/auth/hooks/useAuth'
 import type { ProfessorSubjectListItem } from '@/types/subject'
 import type { StudentEvaluation } from '@/types/evaluation'
+import type { CompanyProspect } from '@/types/company'
 import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -19,6 +21,7 @@ import { EvaluationStatusBadge } from '@/components/EvaluationStatusBadge'
 import { WeeklyReportStatusBadge } from '@/components/WeeklyReportStatusBadge'
 import { CompanySemaphoreBadge } from '@/components/CompanySemaphoreBadge'
 import { OpenChatButton } from '@/features/comunicacion/components/OpenChatButton'
+import { StudentCompaniesSheet } from '../components/StudentCompaniesSheet'
 import { useSearch } from '@/hooks/useSearch'
 import { usePagination } from '@/hooks/usePagination'
 
@@ -35,12 +38,19 @@ export function ProfessorEvaluationSubjectStudentsPage() {
   const [subject, setSubject] = useState<ProfessorSubjectListItem | null>(null)
   const [students, setStudents] = useState<StudentEvaluation[]>([])
   const [companyStatus, setCompanyStatus] = useState<Record<string, CompanyStatusEntry>>({})
+  const [companiesByStudent, setCompaniesByStudent] = useState<Record<string, CompanyProspect[]>>({})
   const [isLoading, setIsLoading] = useState(true)
   const [togglingStudentId, setTogglingStudentId] = useState<string | null>(null)
+  const [companiesSheetStudent, setCompaniesSheetStudent] = useState<StudentEvaluation | null>(null)
 
   const loadCompanyStatus = useCallback(async (rosterSubjectId: string, roster: StudentEvaluation[]) => {
-    const map = await getCompanyStatusMapAsync(rosterSubjectId, roster.map((student) => student.studentId))
-    setCompanyStatus(map)
+    const studentIds = roster.map((student) => student.studentId)
+    const [statusMap, companiesMap] = await Promise.all([
+      getCompanyStatusMapAsync(rosterSubjectId, studentIds),
+      listCompaniesForRosterAsync(rosterSubjectId, studentIds),
+    ])
+    setCompanyStatus(statusMap)
+    setCompaniesByStudent(companiesMap)
   }, [])
 
   useEffect(() => {
@@ -127,6 +137,8 @@ export function ProfessorEvaluationSubjectStudentsPage() {
               <div className="grid gap-4 sm:grid-cols-2">
                 {pageItems.map((student) => {
                   const status = companyStatus[student.studentId]
+                  const companies = companiesByStudent[student.studentId] ?? []
+                  const confirmedCompany = companies.find((company) => company.status === 'confirmada')
                   return (
                     <Card key={student.studentId} className="p-5 space-y-4">
                       <div>
@@ -134,13 +146,22 @@ export function ProfessorEvaluationSubjectStudentsPage() {
                         <p className="text-sm text-muted-foreground mt-1">Grupo: {student.groupName}</p>
                         <p className="flex items-center gap-1.5 text-sm text-muted-foreground mt-1">
                           <Building2 className="size-3.5" />
-                          {student.company ?? 'Sin empresa asignada'}
+                          {confirmedCompany?.name ?? student.company ?? 'Sin empresa asignada'}
                         </p>
                         {status ? (
                           <div className="mt-1.5">
                             <CompanySemaphoreBadge semaphore={status.semaphore} lastReportSubmittedAt={status.lastReportSubmittedAt} />
                           </div>
                         ) : null}
+                        <Button
+                          type="button"
+                          variant="link"
+                          size="sm"
+                          className="h-auto p-0 text-xs"
+                          onClick={() => setCompaniesSheetStudent(student)}
+                        >
+                          Ver empresas ({companies.length})
+                        </Button>
                       </div>
 
                       <div className="flex flex-wrap gap-2">
@@ -182,6 +203,15 @@ export function ProfessorEvaluationSubjectStudentsPage() {
           )}
         </>
       )}
+
+      <StudentCompaniesSheet
+        open={companiesSheetStudent !== null}
+        onOpenChange={(open) => {
+          if (!open) setCompaniesSheetStudent(null)
+        }}
+        studentName={companiesSheetStudent?.studentName ?? ''}
+        companies={companiesSheetStudent ? (companiesByStudent[companiesSheetStudent.studentId] ?? []) : []}
+      />
     </div>
   )
 }

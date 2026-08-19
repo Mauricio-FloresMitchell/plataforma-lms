@@ -63,6 +63,9 @@ export type NotificationType =
   // Producto de Titulación (Sprint 17, Parte 11)
   | 'titulacion_fase_enviada'
   | 'titulacion_fase_revisada'
+  // Empresas / Prospección Estudiantil (Mejora 2)
+  | 'empresa_registrada'
+  | 'empresa_confirmada'
 
 /** Categoría a la que pertenece cada tipo — alimenta los filtros (Parte 10). */
 export const NOTIFICATION_TYPE_CATEGORY: Record<NotificationType, NotificationCategory> = {
@@ -102,6 +105,8 @@ export const NOTIFICATION_TYPE_CATEGORY: Record<NotificationType, NotificationCa
   solicitud_grupo_resuelta: 'mensajeria',
   titulacion_fase_enviada: 'academica',
   titulacion_fase_revisada: 'academica',
+  empresa_registrada: 'academica',
+  empresa_confirmada: 'academica',
 }
 
 /** Ícono por defecto (nombre de componente de `lucide-react`) para cada tipo. */
@@ -142,6 +147,8 @@ export const NOTIFICATION_TYPE_ICON: Record<NotificationType, string> = {
   solicitud_grupo_resuelta: 'MessagesSquare',
   titulacion_fase_enviada: 'FileCheck',
   titulacion_fase_revisada: 'CheckCircle2',
+  empresa_registrada: 'Building2',
+  empresa_confirmada: 'BadgeCheck',
 }
 
 export type NotificationPriority = 'baja' | 'media' | 'alta'

@@ -13,7 +13,7 @@ const DASHBOARD_BY_PROFESSOR: Record<string, ProfessorDashboard> = {
       periodName: 'Ciclo 2026-1',
     },
     kpis: {
-      assignedStudents: 15,
+      assignedStudents: 16,
       groupsCount: 1,
       pendingReviews: 4,
       subjectsCount: 1,
@@ -23,7 +23,7 @@ const DASHBOARD_BY_PROFESSOR: Record<string, ProfessorDashboard> = {
         id: 'sub-001',
         name: 'Clase Modelo 1 y Modelo 2',
         groupName: 'CMM-101',
-        studentsCount: 15,
+        studentsCount: 16,
       },
     ],
     pendingReports: [

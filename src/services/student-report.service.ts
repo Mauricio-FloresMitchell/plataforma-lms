@@ -6,6 +6,7 @@ import {
 } from '@/mocks/reports'
 import type { SubjectOption } from '@/mocks/reports'
 import { getAllReportTemplates } from '@/mocks/reportTemplates'
+import { getConfirmedCompany } from '@/mocks/companies'
 import { emitAppEvent } from '@/core/events/EventBus'
 import type { CreateReportInput, WeeklyReport } from '@/types/report'
 import type { ReportTemplate } from '@/types/reportTemplate'
@@ -66,7 +67,13 @@ export async function createStudentReport(
   input: CreateReportInput,
 ): Promise<WeeklyReport> {
   await delay(NETWORK_DELAY_MS)
-  const report = insertReport(studentId, studentName, input)
+  const confirmedCompany = getConfirmedCompany(input.subjectId, studentId)
+  const report = insertReport(
+    studentId,
+    studentName,
+    input,
+    confirmedCompany ? { id: confirmedCompany.id, name: confirmedCompany.name } : undefined,
+  )
   emitAppEvent('REPORT_SUBMITTED', {
     reportId: report.id,
     studentId: report.studentId,

@@ -86,6 +86,9 @@ export interface WeeklyReport {
   /** Regla especial Derecho/Psicología: confirmación de que no se incluyeron datos identificables. */
   anonymizationConfirmed?: boolean
   links?: ReportLink[]
+  /** Empresa confirmada (`@/types/company`) del alumno al momento de enviar — ausente si aún no ha confirmado ninguna. */
+  companyId?: string
+  companyName?: string
 }
 
 /** Datos que captura el alumno al crear un reporte con el motor de plantillas. */
