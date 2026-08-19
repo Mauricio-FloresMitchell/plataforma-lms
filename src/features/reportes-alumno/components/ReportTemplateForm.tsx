@@ -47,6 +47,15 @@ export function ReportTemplateForm({ subjects, templates, onSubmit }: ReportTemp
     setValues((prev) => ({ ...prev, [key]: value }))
   }
 
+  /** Adjuntar un archivo o enlace ya cumple el requisito de evidencia — limpia el aviso aunque no se haya reenviado el formulario. */
+  function clearAttachmentsError() {
+    setErrors((prev) => {
+      if (!prev.attachments) return prev
+      const { attachments: _attachments, ...rest } = prev
+      return rest
+    })
+  }
+
   async function handleSubmit(event: React.FormEvent) {
     event.preventDefault()
     if (!template) return
@@ -169,14 +178,20 @@ export function ReportTemplateForm({ subjects, templates, onSubmit }: ReportTemp
           ) : null}
 
           <div className="flex flex-col gap-3">
-            <h2 className="text-sm font-semibold text-foreground">Adjuntos</h2>
+            <h2 className="text-sm font-semibold text-foreground">Adjuntos (opcional)</h2>
             <ReportAttachmentsSection
               evidences={values.evidences}
               links={values.links}
               errors={errors}
-              onAddEvidence={(evidence) => update('evidences', [...values.evidences, evidence])}
+              onAddEvidence={(evidence) => {
+                update('evidences', [...values.evidences, evidence])
+                clearAttachmentsError()
+              }}
               onRemoveEvidence={(id) => update('evidences', values.evidences.filter((item) => item.id !== id))}
-              onAddLink={(link) => update('links', [...values.links, link])}
+              onAddLink={(link) => {
+                update('links', [...values.links, link])
+                clearAttachmentsError()
+              }}
               onRemoveLink={(id) => update('links', values.links.filter((item) => item.id !== id))}
             />
           </div>

@@ -48,7 +48,7 @@ const TEMPLATES: Record<TemplateId, ReportTemplate> = {
       ],
     },
     requiresAnonymization: false,
-    filesRequired: true,
+    filesRequired: false,
   },
   R02: {
     id: 'R02',
@@ -80,7 +80,7 @@ const TEMPLATES: Record<TemplateId, ReportTemplate> = {
       ],
     },
     requiresAnonymization: false,
-    filesRequired: true,
+    filesRequired: false,
   },
   R03: {
     id: 'R03',
@@ -117,7 +117,7 @@ const TEMPLATES: Record<TemplateId, ReportTemplate> = {
       ],
     },
     requiresAnonymization: true,
-    filesRequired: true,
+    filesRequired: false,
   },
   R04: {
     id: 'R04',
@@ -149,7 +149,7 @@ const TEMPLATES: Record<TemplateId, ReportTemplate> = {
       ],
     },
     requiresAnonymization: false,
-    filesRequired: true,
+    filesRequired: false,
   },
   R05: {
     id: 'R05',
@@ -186,7 +186,7 @@ const TEMPLATES: Record<TemplateId, ReportTemplate> = {
       ],
     },
     requiresAnonymization: true,
-    filesRequired: true,
+    filesRequired: false,
   },
   R06: {
     id: 'R06',
@@ -218,7 +218,7 @@ const TEMPLATES: Record<TemplateId, ReportTemplate> = {
       ],
     },
     requiresAnonymization: false,
-    filesRequired: true,
+    filesRequired: false,
   },
   R07: {
     id: 'R07',
@@ -250,7 +250,7 @@ const TEMPLATES: Record<TemplateId, ReportTemplate> = {
       ],
     },
     requiresAnonymization: false,
-    filesRequired: true,
+    filesRequired: false,
   },
 }
 
