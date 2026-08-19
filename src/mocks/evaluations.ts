@@ -234,9 +234,10 @@ const andreaEvaluation: StudentEvaluation = {
   titulacionProgress: 72,
   ...buildRubricSeed(
     [
-      { criterionId: 'rubrica-a-dominio', level: 'excelente' },
-      { criterionId: 'rubrica-a-aplicacion', level: 'bueno' },
-      { criterionId: 'rubrica-a-comunicacion', level: 'bueno' },
+      { criterionId: 'rubrica-a-avance', level: 'excelente' },
+      { criterionId: 'rubrica-a-conexion', level: 'excelente' },
+      { criterionId: 'rubrica-a-calidad', level: 'excelente' },
+      { criterionId: 'rubrica-a-redaccion', level: 'bueno' },
     ],
     [
       { criterionId: 'rubrica-b-puntualidad', level: 'excelente' },

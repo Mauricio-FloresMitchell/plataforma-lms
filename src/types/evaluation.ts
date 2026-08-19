@@ -38,15 +38,20 @@ export type FeedbackStatus = 'pendiente' | 'borrador' | 'publicada'
 
 /**
  * Criterios de las dos rúbricas del Modelo Educativo Imperalianz (Sprint 17,
- * Parte 4/5): Rúbrica A (70%, dominio académico) + Rúbrica B (30%,
- * desempeño/actitud). Mismo peso 70/30 y mismo cálculo (`calculateFinalPercentage`,
- * `@/utils/reportGrade`, ADR-008) que ya usa la Evaluación Docente de
- * Reportes — no se inventó una tercera fórmula.
+ * Parte 4/5): Rúbrica A (70%, Deliverable de Consultoría) + Rúbrica B (30%,
+ * Participación y Colaboración). Mismo peso 70/30 y mismo cálculo
+ * (`calculateFinalPercentage`, `@/utils/reportGrade`, ADR-008) que ya usa la
+ * Evaluación Docente de Reportes — no se inventó una tercera fórmula.
+ *
+ * Nomenclatura y pesos de Rúbrica A alineados al manual de capacitación
+ * docente ("Guion_Capacitacion_Docente", Mejora 4 — Rúbricas Maestras de
+ * Evaluación): 4 criterios de 25% cada uno, no 3 criterios de 40/30/30.
  */
 export const RUBRIC_A_CRITERIA: RubricCriterionDefinition[] = [
-  { id: 'rubrica-a-dominio', name: 'Dominio del tema', weight: 40 },
-  { id: 'rubrica-a-aplicacion', name: 'Aplicación práctica', weight: 30 },
-  { id: 'rubrica-a-comunicacion', name: 'Comunicación y claridad', weight: 30 },
+  { id: 'rubrica-a-avance', name: 'Avance real en el proyecto propio', weight: 25 },
+  { id: 'rubrica-a-conexion', name: 'Conexión con el caso de consultoría', weight: 25 },
+  { id: 'rubrica-a-calidad', name: 'Calidad y profundidad del análisis', weight: 25 },
+  { id: 'rubrica-a-redaccion', name: 'Redacción y presentación', weight: 25 },
 ]
 
 export const RUBRIC_B_CRITERIA: RubricCriterionDefinition[] = [
